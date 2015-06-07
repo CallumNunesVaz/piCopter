@@ -21,7 +21,7 @@ and is intended to be used as a learning tool.
 
 
 Board Communication scheme diagram:
-/*
+```
                              -------------------
                              | Raspberry Pi A+ |
                              -------------------
@@ -34,7 +34,7 @@ Board Communication scheme diagram:
  -----------			  | XBEE |	        |ESC1|  |ESC2|  |ESC3|  |ESC4|
  | MPU9150 |                      --------
  -----------
-*/
+```
 
 IMPORTANT NOTES:
  * To compile using gcc run  "gcc -o piCopter.prog piCopter.c -l bcm2835" in target dir (make sure bcm2835 libs installed)
