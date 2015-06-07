@@ -153,7 +153,7 @@ void init_PinDir(void) {
 void init_Sensors(void) {
 	init_IMU();
 	init_MAG();
-	init ALTI();
+	init_ALTI();
 } 
 
 // print out Processed sensor data in 6-decimal format, used for analysis/debugging
