@@ -1,2 +1,2 @@
 # piCopter
-raspberry pi quadcopter
+raspberry pi quadcopter. Its damn cool.
