@@ -1,5 +1,5 @@
 #include "ak8975.h"
-#include "easySerialComms.h"
+#include "easyComms.h"
 
 unsigned int magRawData[3]; // magnetometer x y z
 
@@ -30,6 +30,26 @@ extern void init_MAG(void) {
 	readMag_ASA();
 }
 
+// retrieve raw mag value on X axis 
+extern unsigned  int get_MagX_Raw(void) {
+	return MagXRaw;
+}
+
+// retrieve raw mag value on Y axis 
+extern unsigned  int get_MagY_Raw(void) {
+	return MagYRaw;
+}
+
+// retrieve raw mag value on Z axis 
+extern unsigned int get_MagZ_Raw(void) {
+	return MagZRaw;
+}
+
+// retrieve raw mag values as array
+extern unsigned int[] get_MagXYZ_Raw(void) {
+	return MagRawData;
+}
+
 // retrieve processed mag value on X axis 
 extern int get_MagX(void) {
 	return MagXProcessed;
@@ -45,7 +65,7 @@ extern int get_MagZ(void) {
 	return MagZProcessed;
 }
 
-// retrieve processed mag values as array axis 
+// retrieve processed mag values as array 
 extern int[] get_MagXYZ(void) {
 	return MagProcessedData;
 }

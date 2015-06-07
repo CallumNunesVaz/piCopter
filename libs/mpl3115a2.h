@@ -67,15 +67,17 @@ uint32_t altitudeRaw; // raw altitude data is 24 bits
 
 float altitudeProcessed;
 
-
 ///////////////Prototypes///////////////
-// initialisation routine
-void init(void);
-// read from the MPL3115A2 Altitude sensor
-void readAlti(void);
 // formats data from source device
 void formatData();
-
+// get processed value for altitude
+extern float get_Altitude();
+// get raw sensor value of altitude
+extern uint32_t get_Altitude_Raw();
+// initialisation routine
+extern void init_ALTI(void);
+// read from the MPL3115A2 Altitude sensor
+extern void readAlti(void);
 
 #endif
 

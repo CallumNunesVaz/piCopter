@@ -40,6 +40,14 @@ byte magASAData[3];
 void formatData(void);
 // initialisation routine
 extern void init_MAG(void);
+// retrieve raw mag value on X axis 
+extern unsigned int get_MagX_Raw(void);
+// retrieve raw mag value on Y axis 
+extern unsigned int get_MagY_Raw(void);
+// retrieve raw mag value on Z axis 
+extern unsigned int get_MagZ_Raw(void);
+// retrieve raw mag values as array
+extern unsigned int[] get_MagXYZ_Raw(void);
 // retrieve processed mag value on X axis 
 extern int get_MagX(void);
 // retrieve processed mag value on Y axis 
@@ -51,7 +59,7 @@ extern int[] get_MagXYZ(void);
 // read from the MPU9150's Magnetometer, store in magRawData[]
 extern void readMag(void);
 // read magnetometer adjustment values for future calculations
-extern void readMag_ASA(void)
+void readMag_ASA(void)
 
 #endif
 

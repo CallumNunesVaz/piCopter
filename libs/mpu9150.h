@@ -46,23 +46,45 @@ float imuProcessedData[7]; // accel x y z, temp, gyro x y z
 #define gyroYProcessed  imuProcessedData[5]
 #define gyroZProcessed  imuProcessedData[6]
 
-uint8_t ACCEL_RANGE;
+const uint8_t ACCEL_RANGE;
 
-uint16_t GYRO_RANGE;
+const uint16_t GYRO_RANGE;
 
-uint8_t DLPF_FREQ;
+const uint8_t DLPF_FREQ;
 
 
 ///////////////Prototypes///////////////
 
 // formats data from source device
 void formatData(void);
+// retrieve raw sensor data from accelarometer
+extern unsigned int get_AccelX_Raw();
+extern unsigned int get_AccelY_Raw();
+extern unsigned int get_AccelZ_Raw();
+extern unsigned int[] get_AccelXYZ_Raw();
+// retrieve processed sensor data from accelarometer
+extern int get_AccelX();
+extern int get_AccelY();
+extern int get_AccelZ();
+extern int[] get_AccelXYZ();
+// retrieve raw sensor data from gyroscope
+extern unsigned int get_GyroX_Raw();
+extern unsigned int get_GyroY_Raw();
+extern unsigned int get_GyroZ_Raw();
+extern unsigned int[] get_GyroXYZ_Raw();
+// retrieve processed sensor data from gyroscope
+extern int get_GyroX();
+extern int get_GyroY();
+extern int get_GyroZ();
+extern int[] Get_gyroXYZ();
+// retrieve raw sensor data from temperature sensor
+extern unsigned int get_Temp_Raw();
+// retrieve processed sensor data from temperature sensor
+extern int get_Temp();
 // initialisation routine
-void init_ACCEL(void);
-// initialisation routine
-void init_GYRO(void);
+extern void init_IMU(void);
 // read from the MPU9150
-void readIMU(void);
+extern void readIMU(void);
 
 // void set_gyro_Range(int range);
 // void get_gyro_Range(int range);
