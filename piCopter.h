@@ -160,13 +160,13 @@ extern float imuProcessedData[7]; // accel x y z, temp, gyro x y z
 #define gyroYProcessed  imuProcessedData[5]
 #define gyroZProcessed  imuProcessedData[6]
 
-extern uint8_t ACCEL_RANGE;
+extern const uint8_t ACCEL_RANGE;
 
-extern uint16_t GYRO_RANGE;
+extern const uint16_t GYRO_RANGE;
 
-extern uint8_t DLPF_FREQ;
+extern const uint8_t DLPF_FREQ;
 
-extern uint32_t LOOP_CNT_DIV;
+extern const uint32_t LOOP_CNT_DIV;
 
 ///////////////Prototypes///////////////
 
