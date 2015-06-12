@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "bcm2835.h"   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
+#include "easySerialComms.h"
 
 
 // read a single value from one of the sensors registers (repeated-start format) used by mpu9150 and mpl3115a2

@@ -1,5 +1,5 @@
 #include "ak8975.h"
-#include "easyComms.h"
+#include "easySerialComms.h"
 
 static unsigned int magRawData[3]; // magnetometer x y z
 

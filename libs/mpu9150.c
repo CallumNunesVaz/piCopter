@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "mpu9150.h"
 
 //--------------------------------------------------- Global Variables -------------------------------------------------//
 
