@@ -59,7 +59,7 @@ int *get_MagXYZ(void);
 // read from the MPU9150's Magnetometer, store in magRawData[]
 void readMag(void);
 // read magnetometer adjustment values for future calculations
-void readMag_ASA(void)
+void readMag_ASA(void);
 
 #endif
 

@@ -25,7 +25,6 @@ enum bool {FALSE, TRUE};
 
 ////////////Global Variables////////////
 
-extern const uint32_t LOOP_CNT_DIV;
 
 ///////////////Prototypes///////////////
 
