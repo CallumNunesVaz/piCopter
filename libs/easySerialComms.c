@@ -53,7 +53,7 @@ void init_Comms(void) {
 }
 
 // I2C comms initialisation
-static void init_I2C(void) {
+void init_I2C(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising I2C..."); 
 	#endif
@@ -62,14 +62,14 @@ static void init_I2C(void) {
 }
 
 // Serial comms initialisation
-static void init_Serial(void) {
+void init_Serial(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising USART..."); 
 	#endif
 }
 
 // SPI comms initialisation
-static void init_SPI(void) {
+void init_SPI(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising SPI..."); 
 	#endif
@@ -108,7 +108,7 @@ static void init_SPI(void) {
 }
 
 // print out the description of a returned i2c reason code
-static void printI2CReasonCode (byte condition) {
+void printI2CReasonCode (byte condition) {
 	switch (condition) {
 		case BCM2835_I2C_REASON_OK: printf("%s\n", "I2C success!"); break;
 		case BCM2835_I2C_REASON_ERROR_NACK: printf("%s\n", "I2C fail: NACK"); break;	

@@ -37,7 +37,7 @@ byte magASAData[3];
 #define magASAZ magASAData[2]
 
 // formats data from source device
-static void formatData(void);
+void formatData(void);
 // initialisation routine
 void init_MAG(void);
 // retrieve raw mag value on X axis 
@@ -59,7 +59,7 @@ int *get_MagXYZ(void);
 // read from the MPU9150's Magnetometer, store in magRawData[]
 void readMag(void);
 // read magnetometer adjustment values for future calculations
-static void readMag_ASA(void)
+void readMag_ASA(void)
 
 #endif
 

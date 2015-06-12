@@ -62,14 +62,10 @@
 
 ////////////Global Variables////////////
 
-// sensor data storage
-uint32_t altitudeRaw; // raw altitude data is 24 bits
-
-float altitudeProcessed;
 
 ///////////////Prototypes///////////////
 // formats data from source device
-static void formatData();
+void formatData();
 // get processed value for altitude
 float get_Altitude();
 // get raw sensor value of altitude

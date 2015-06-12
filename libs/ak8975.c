@@ -9,7 +9,7 @@ static uint8_t magASAData[3];
 
 
 // formats data from source device
-static void formatData(void) {
+void formatData(void) {
 	byte i;
 	for (i = 0; i < 3; i++)
 		magProcesseData[i] = magRawData[i]*0.3;
@@ -108,7 +108,7 @@ void readMag(void) {
 }
 
 // read adjustment values from the MPU9150's Magnetometer, store in magASAData[]
-static void readMag_ASA(void) {	
+void readMag_ASA(void) {	
 	for (i = MAG_RA_ASAX; i <= MAG_RA_ASAZ; i++) 
 		magASAData[i-16] = i2cRead_SS(magI2CAddress, i);
 }
