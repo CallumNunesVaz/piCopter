@@ -61,22 +61,22 @@ void formatData(void);
 unsigned int get_AccelX_Raw();
 unsigned int get_AccelY_Raw();
 unsigned int get_AccelZ_Raw();
-unsigned int[] get_AccelXYZ_Raw();
+unsigned int *get_AccelXYZ_Raw();
 // retrieve processed sensor data from accelarometer
 int get_AccelX();
 int get_AccelY();
 int get_AccelZ();
-int[] get_AccelXYZ();
+int *get_AccelXYZ();
 // retrieve raw sensor data from gyroscope
 unsigned int get_GyroX_Raw();
 unsigned int get_GyroY_Raw();
 unsigned int get_GyroZ_Raw();
-unsigned int[] get_GyroXYZ_Raw();
+unsigned int *get_GyroXYZ_Raw();
 // retrieve processed sensor data from gyroscope
 int get_GyroX();
 int get_GyroY();
 int get_GyroZ();
-int[] Get_gyroXYZ();
+int *Get_gyroXYZ();
 // retrieve raw sensor data from temperature sensor
 unsigned int get_Temp_Raw();
 // retrieve processed sensor data from temperature sensor

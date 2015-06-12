@@ -67,7 +67,7 @@ unsigned int get_AccelZ_Raw() {
 	return accelZRaw;
 }
 // retrieve raw sensor data from accelarometer
-unsigned int[] get_AccelXYZ_Raw() {
+unsigned int *get_AccelXYZ_Raw() {
 	byte i;
 	unsigned int[3] accelRawArray;
 	for (i = 0; i < 3; i++) {
@@ -87,7 +87,7 @@ int get_AccelZ() {
 	return accelZProcessed;
 }
 // retrieve processed sensor data from accelarometer
-int[] get_AccelXYZ() {
+int *get_AccelXYZ() {
 	byte i;
 	unsigned int[3] accelProcessedArray;
 	for (i = 0; i < 3; i++) {
@@ -107,7 +107,7 @@ unsigned int get_GyroZ_Raw() {
 	return gyroZRaw;
 }
 // retrieve raw sensor data from gyroscope
-unsigned int[] get_GyroXYZ_Raw() {
+unsigned int *get_GyroXYZ_Raw() {
 	byte i;
 	unsigned int[3] gyroRawArray;
 	for (i = 0; i < 3; i++) {
@@ -127,7 +127,7 @@ int get_GyroZ() {
 	return gyroZProcessed;
 }
 // retrieve processed sensor data from gyroscope
-int[] get_GyroXYZ() {
+int *get_GyroXYZ() {
 	byte i;
 	unsigned int[3] gyroProcessedArray;
 	for (i = 0; i < 3; i++) {

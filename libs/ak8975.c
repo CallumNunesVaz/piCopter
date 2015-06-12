@@ -46,7 +46,7 @@ unsigned int get_MagZ_Raw(void) {
 }
 
 // retrieve raw mag values as array
-unsigned int[] get_MagXYZ_Raw(void) {
+unsigned int *get_MagXYZ_Raw(void) {
 	return MagRawData;
 }
 
@@ -66,7 +66,7 @@ int get_MagZ(void) {
 }
 
 // retrieve processed mag values as array 
-int[] get_MagXYZ(void) {
+int *get_MagXYZ(void) {
 	return MagProcessedData;
 }
 
