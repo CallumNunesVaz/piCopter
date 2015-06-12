@@ -3,6 +3,7 @@
 Author: Callum Nunes-Vaz
 
 Current Problems: 
+ * makefile incorrect and must be made working to compile without external function declarations clogging up the main .c file.
  * Currently investigating SPI comms (pic won't seem to talk back, most probably problem with PIC).
  * Magnetomer gives NACKS, must have incorrectly configured aux mode on mpu9150
  * Entire program contained in single .c file for dev purposes, will be reformatted for 1.0 version
@@ -37,7 +38,6 @@ Board Communication scheme diagram:
 ```
 
 IMPORTANT NOTES:
- * To compile using gcc run  "gcc -o piCopter.prog piCopter.c -l bcm2835" in target dir (make sure bcm2835 libs installed)
  * MUST BE RUN AS SUPER USER TO ACCESS GPIO e.g. "sudo ./piCopterprogram.run"
- * Debugging is enabled at compile time by setting debug macro as defined e.g. "gcc -o piCopter.prog piCopter.c -DDEBUG -l bcm2835"
+ * compile using makefile
 
