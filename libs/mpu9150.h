@@ -58,33 +58,33 @@ const uint8_t DLPF_FREQ;
 // formats data from source device
 void formatData(void);
 // retrieve raw sensor data from accelarometer
-extern unsigned int get_AccelX_Raw();
-extern unsigned int get_AccelY_Raw();
-extern unsigned int get_AccelZ_Raw();
-extern unsigned int[] get_AccelXYZ_Raw();
+unsigned int get_AccelX_Raw();
+unsigned int get_AccelY_Raw();
+unsigned int get_AccelZ_Raw();
+unsigned int[] get_AccelXYZ_Raw();
 // retrieve processed sensor data from accelarometer
-extern int get_AccelX();
-extern int get_AccelY();
-extern int get_AccelZ();
-extern int[] get_AccelXYZ();
+int get_AccelX();
+int get_AccelY();
+int get_AccelZ();
+int[] get_AccelXYZ();
 // retrieve raw sensor data from gyroscope
-extern unsigned int get_GyroX_Raw();
-extern unsigned int get_GyroY_Raw();
-extern unsigned int get_GyroZ_Raw();
-extern unsigned int[] get_GyroXYZ_Raw();
+unsigned int get_GyroX_Raw();
+unsigned int get_GyroY_Raw();
+unsigned int get_GyroZ_Raw();
+unsigned int[] get_GyroXYZ_Raw();
 // retrieve processed sensor data from gyroscope
-extern int get_GyroX();
-extern int get_GyroY();
-extern int get_GyroZ();
-extern int[] Get_gyroXYZ();
+int get_GyroX();
+int get_GyroY();
+int get_GyroZ();
+int[] Get_gyroXYZ();
 // retrieve raw sensor data from temperature sensor
-extern unsigned int get_Temp_Raw();
+unsigned int get_Temp_Raw();
 // retrieve processed sensor data from temperature sensor
-extern int get_Temp();
+int get_Temp();
 // initialisation routine
-extern void init_IMU(void);
+void init_IMU(void);
 // read from the MPU9150
-extern void readIMU(void);
+void readIMU(void);
 
 // void set_gyro_Range(int range);
 // void get_gyro_Range(int range);

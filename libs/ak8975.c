@@ -9,14 +9,14 @@ byte magASAData[3];
 
 
 // formats data from source device
-void formatData(void) {
+static void formatData(void) {
 	byte i;
 	for (i = 0; i < 3; i++)
 		magProcesseData[i] = magRawData[i]*0.3;
 }
 
 // initialisation routine
-extern void init_MAG(void) {
+void init_MAG(void) {
 	printf("%s\n", "		-Initialising Magnetometer..."); 
 	// OPERATING MODE CONTROL	
 	// <3:0> 0000 = power down mode, 0001 = single measurement mode, 1000 = self test mode, 1111 = fuse ROM access mode 
@@ -31,47 +31,47 @@ extern void init_MAG(void) {
 }
 
 // retrieve raw mag value on X axis 
-extern unsigned  int get_MagX_Raw(void) {
+unsigned  int get_MagX_Raw(void) {
 	return MagXRaw;
 }
 
 // retrieve raw mag value on Y axis 
-extern unsigned  int get_MagY_Raw(void) {
+unsigned  int get_MagY_Raw(void) {
 	return MagYRaw;
 }
 
 // retrieve raw mag value on Z axis 
-extern unsigned int get_MagZ_Raw(void) {
+unsigned int get_MagZ_Raw(void) {
 	return MagZRaw;
 }
 
 // retrieve raw mag values as array
-extern unsigned int[] get_MagXYZ_Raw(void) {
+unsigned int[] get_MagXYZ_Raw(void) {
 	return MagRawData;
 }
 
 // retrieve processed mag value on X axis 
-extern int get_MagX(void) {
+int get_MagX(void) {
 	return MagXProcessed;
 }
 
 // retrieve processed mag value on Y axis 
-extern int get_MagY(void) {
+int get_MagY(void) {
 	return MagYProcessed;
 }
 
 // retrieve processed mag value on Z axis 
-extern int get_MagZ(void) {
+int get_MagZ(void) {
 	return MagZProcessed;
 }
 
 // retrieve processed mag values as array 
-extern int[] get_MagXYZ(void) {
+int[] get_MagXYZ(void) {
 	return MagProcessedData;
 }
 
 // read raw data from the MPU9150's Magnetometer, store in magRawData[]
-extern void readMag(void) {
+void readMag(void) {
 	int temp1;
 	if (!(i2cRead_SS(I2CAddress, MAG_RA_ST1))) // if no new data then return
 		return;
@@ -108,7 +108,7 @@ extern void readMag(void) {
 }
 
 // read adjustment values from the MPU9150's Magnetometer, store in magASAData[]
-extern void readMag_ASA(void) {	
+static void readMag_ASA(void) {	
 	for (i = MAG_RA_ASAX; i <= MAG_RA_ASAZ; i++) 
 		magASAData[i-16] = i2cRead_SS(I2CAddress, i);
 }

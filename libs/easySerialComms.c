@@ -5,7 +5,7 @@
 
 
 // read a single value from one of the sensors registers (repeated-start format) used by mpu9150 and mpl3115a2
-extern byte i2cRead_RS(byte slaveAddress, byte regAddress) {
+uint8_t i2cRead_RS(byte slaveAddress, byte regAddress) {
 	char reg[] = {regAddress};
 	char buffer[] = {0};
 	byte condition;
@@ -18,7 +18,7 @@ extern byte i2cRead_RS(byte slaveAddress, byte regAddress) {
 }
 
 // read a single value from one of the sensors registers (single-start format) used by ak8975
-extern byte i2cRead_SS(byte slaveAddress, byte regAddress) {
+uint8_t i2cRead_SS(byte slaveAddress, byte regAddress) {
 	char buffer[2] = {slaveAddress, regAddress};
 	byte condition;
 	bcm2835_i2c_setSlaveAddress(slaveAddress); // set Slave address
@@ -31,7 +31,7 @@ extern byte i2cRead_SS(byte slaveAddress, byte regAddress) {
 }
 
 // write a value to one of the i2c sensor's registers
-extern void i2cWrite(byte slaveAddress, byte regAddress, byte val) {
+void i2cWrite(byte slaveAddress, byte regAddress, byte val) {
 	byte condition;                                     // returned i2c reason code storage
 	char buffer[] = {regAddress, val}; 		    // buffer of bytes to send
 	uint32_t num = 2; 				    // number of bytes in buffer / number of bytes to send
@@ -43,7 +43,7 @@ extern void i2cWrite(byte slaveAddress, byte regAddress, byte val) {
 }
 
 // comms initialisation
-extern void init_Comms(void) {
+void init_Comms(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "	-Initialising Communications Interfaces..."); 
 	#endif
@@ -53,7 +53,7 @@ extern void init_Comms(void) {
 }
 
 // I2C comms initialisation
-void init_I2C(void) {
+static void init_I2C(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising I2C..."); 
 	#endif
@@ -62,14 +62,14 @@ void init_I2C(void) {
 }
 
 // Serial comms initialisation
-void init_Serial(void) {
+static void init_Serial(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising USART..."); 
 	#endif
 }
 
 // SPI comms initialisation
-void init_SPI(void) {
+static void init_SPI(void) {
 	#ifdef DEBUG 
 		printf("%s\n", "		-Initialising SPI..."); 
 	#endif
@@ -108,7 +108,7 @@ void init_SPI(void) {
 }
 
 // print out the description of a returned i2c reason code
-void printI2CReasonCode (byte condition) {
+static void printI2CReasonCode (byte condition) {
 	switch (condition) {
 		case BCM2835_I2C_REASON_OK: printf("%s\n", "I2C success!"); break;
 		case BCM2835_I2C_REASON_ERROR_NACK: printf("%s\n", "I2C fail: NACK"); break;	

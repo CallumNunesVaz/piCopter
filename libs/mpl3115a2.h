@@ -69,15 +69,15 @@ float altitudeProcessed;
 
 ///////////////Prototypes///////////////
 // formats data from source device
-void formatData();
+static void formatData();
 // get processed value for altitude
-extern float get_Altitude();
+float get_Altitude();
 // get raw sensor value of altitude
-extern uint32_t get_Altitude_Raw();
+uint32_t get_Altitude_Raw();
 // initialisation routine
-extern void init_ALTI(void);
+void init_ALTI(void);
 // read from the MPL3115A2 Altitude sensor
-extern void readAlti(void);
+void readAlti(void);
 
 #endif
 

@@ -14,7 +14,7 @@ float altiProcessedData;
 // functions in alphabetical order
 
 // Format data from raw sensor values into SI units
-void formatData() {
+static void formatData() {
 	/* The Altitude data is arranged as 20-bit 2’s complement value in meters. Stored as meters 
 	   with the 16 bits of OUT_P_DELTA_MSB and OUT_P_DELTA_CSB and with fractions of a meter 
 	   stored in 4 bits in position 7-4 of OUT_P_DELTA_LSB. */
@@ -27,12 +27,12 @@ void formatData() {
 }
 
 // get processed value for altitude
-extern float get_Altitude() {
+float get_Altitude() {
 	return altiRawData;
 }
 
 // get raw sensor value of altitude
-extern uint32_t get_Altitude_Raw() {
+uint32_t get_Altitude_Raw() {
 	return altiProcessedData;
 }
 

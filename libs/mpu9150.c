@@ -55,19 +55,19 @@ void formatData() {
 }
 
 // retrieve raw sensor data from accelarometer
-extern unsigned int get_AccelX_Raw() {
+unsigned int get_AccelX_Raw() {
 	return accelXRaw;
 }
 // retrieve raw sensor data from accelarometer
-extern unsigned int get_AccelY_Raw() {
+unsigned int get_AccelY_Raw() {
 	return accelYRaw;
 }
 // retrieve raw sensor data from accelarometer
-extern unsigned int get_AccelZ_Raw() {
+unsigned int get_AccelZ_Raw() {
 	return accelZRaw;
 }
 // retrieve raw sensor data from accelarometer
-extern unsigned int[] get_AccelXYZ_Raw() {
+unsigned int[] get_AccelXYZ_Raw() {
 	byte i;
 	unsigned int[3] accelRawArray;
 	for (i = 0; i < 3; i++) {
@@ -75,19 +75,19 @@ extern unsigned int[] get_AccelXYZ_Raw() {
 	return accelRawArray;
 }
 // retrieve processed sensor data from accelarometer
-extern int get_AccelX() {
+int get_AccelX() {
 	return accelXProcessed;
 }
 // retrieve processed sensor data from accelarometer
-extern int get_AccelY() {
+int get_AccelY() {
 	return accelYProcessed;
 }
 // retrieve processed sensor data from accelarometer
-extern int get_AccelZ() {
+int get_AccelZ() {
 	return accelZProcessed;
 }
 // retrieve processed sensor data from accelarometer
-extern int[] get_AccelXYZ() {
+int[] get_AccelXYZ() {
 	byte i;
 	unsigned int[3] accelProcessedArray;
 	for (i = 0; i < 3; i++) {
@@ -95,19 +95,19 @@ extern int[] get_AccelXYZ() {
 	return accelProcessedArray;
 }
 // retrieve raw sensor data from gyroscope
-extern unsigned int get_GyroX_Raw() {
+unsigned int get_GyroX_Raw() {
 	return gyroXRaw;
 }
 // retrieve raw sensor data from gyroscope
-extern unsigned int get_GyroY_Raw() {
+unsigned int get_GyroY_Raw() {
 	return gyroYRaw;
 }
 // retrieve raw sensor data from gyroscope
-extern unsigned int get_GyroZ_Raw() {
+unsigned int get_GyroZ_Raw() {
 	return gyroZRaw;
 }
 // retrieve raw sensor data from gyroscope
-extern unsigned int[] get_GyroXYZ_Raw() {
+unsigned int[] get_GyroXYZ_Raw() {
 	byte i;
 	unsigned int[3] gyroRawArray;
 	for (i = 0; i < 3; i++) {
@@ -115,19 +115,19 @@ extern unsigned int[] get_GyroXYZ_Raw() {
 	return gyroRawArray;
 }
 // retrieve processed sensor data from gyroscope
-extern int get_GyroX() {
+int get_GyroX() {
 	return gyroXProcessed;
 }
 // retrieve processed sensor data from gyroscope
-extern int get_GyroY() {
+int get_GyroY() {
 	return gyroYProcessed;
 }
 // retrieve processed sensor data from gyroscope
-extern int get_GyroZ() {
+int get_GyroZ() {
 	return gyroZProcessed;
 }
 // retrieve processed sensor data from gyroscope
-extern int[] get_GyroXYZ() {
+int[] get_GyroXYZ() {
 	byte i;
 	unsigned int[3] gyroProcessedArray;
 	for (i = 0; i < 3; i++) {
@@ -135,16 +135,16 @@ extern int[] get_GyroXYZ() {
 	return gyroProcessedArray;
 }
 // retrieve raw sensor data from temperature sensor
-extern int get_Temp_Raw() {
+int get_Temp_Raw() {
 	return tempRaw;
 }
 // retrieve processed sensor data from temperature sensor
-extern int get_Temp() {
+int get_Temp() {
 	return tempProcessed;
 }
 
 // initialise i2c altitude and imu sensors
-extern void init_IMU(void) {
+void init_IMU(void) {
 	byte i; // variable for for-loops
 	#ifdef DEBUG 
 		printf("%s\n%s\n", "	-Initialising Sensors...","		-Initialising IMU..."); 
@@ -245,7 +245,7 @@ extern void init_IMU(void) {
 }
 
 // read raw xyz data from the MPU9150's Accelorometer, temp & gyro (regs 3B - 48)
-extern void readIMU(void) { 
+void readIMU(void) { 
 	byte regAddress = 0x3B; // starting address
 	byte i = 0;
 	while (regAddress <= 0x48) {
