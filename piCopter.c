@@ -207,7 +207,7 @@ void printRawData(void) {
 	printf("Y: %05d, ", get_MagY_Raw());
 	printf("Z: %05d\n", get_MagZ_Raw());
 	printf("%s", "Temperature:    ");
-	printf("%06d\n", get_Temp_Raw);
+	printf("%06d\n", get_Temp_Raw());
 	printf("%s", "Altitude:       ");
 	printf("%08d\n\n", get_Altitude_Raw());
 }
