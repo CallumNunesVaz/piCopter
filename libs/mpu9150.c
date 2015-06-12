@@ -5,9 +5,9 @@
 
 //--------------------------------------------------- Global Variables -------------------------------------------------//
 
-unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
+static unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
 
-float imuProcessedData[7]; // accel x y z, temp, gyro x y z
+static float imuProcessedData[7]; // accel x y z, temp, gyro x y z
 
 
 //----------------------------------------------- Global Program Modifiers ----------------------------------------------//

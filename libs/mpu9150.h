@@ -4,7 +4,7 @@
 /////////////////PINS/////////////////
 
 #define imuIntrptPin RPI_BPLUS_GPIO_J8_11 // MPU9150 imu unit interrrupt pin gpio17
-#define I2CAddress 0x68 // ...when AD0 = 0, 7-bit adress 0b110100(1) when AD0 = 1
+#define imuI2CAddress 0x68 // ...when AD0 = 0, 7-bit adress 0b110100(1) when AD0 = 1
 
 /////////sensor register Addresses///////
 

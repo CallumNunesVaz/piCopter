@@ -6,9 +6,9 @@
 //--------------------------------------------------- Global Variables -------------------------------------------------//
 
 // sensor data storage
-uint32_t altiRawData; // raw altitude data is 24 bits
+static uint32_t altiRawData; // raw altitude data is 24 bits
 
-float altiProcessedData;
+static float altiProcessedData;
 
 //-------------------------------------------------------Subroutines-----------------------------------------------------//
 // functions in alphabetical order

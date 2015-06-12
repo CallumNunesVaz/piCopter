@@ -19,7 +19,7 @@
 
 #define byte uint8_t
 
-#define I2CAddress 0x0C // MPU9150 has magnetometer connected to its aux i2c bus, must be put in pass-thru mode to access though
+#define magI2CAddress 0x0C // MPU9150 has magnetometer connected to its aux i2c bus, must be put in pass-thru mode to access though
 
 unsigned int magRawData[3];
 #define magXRaw magRawData[0]

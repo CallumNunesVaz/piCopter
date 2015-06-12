@@ -1,11 +1,11 @@
 #include "ak8975.h"
 #include "easyComms.h"
 
-unsigned int magRawData[3]; // magnetometer x y z
+static unsigned int magRawData[3]; // magnetometer x y z
 
-int magProcessedData[3]; // magnetometer x y z
+static int magProcessedData[3]; // magnetometer x y z
 
-byte magASAData[3];
+static uint8_t magASAData[3];
 
 
 // formats data from source device
@@ -73,7 +73,7 @@ int *get_MagXYZ(void) {
 // read raw data from the MPU9150's Magnetometer, store in magRawData[]
 void readMag(void) {
 	int temp1;
-	if (!(i2cRead_SS(I2CAddress, MAG_RA_ST1))) // if no new data then return
+	if (!(i2cRead_SS(magI2CAddress, MAG_RA_ST1))) // if no new data then return
 		return;
 	/*
 	Magnetometer has internal adjustment using the raw xxyyzz data magRawData[0-5]
@@ -96,9 +96,9 @@ void readMag(void) {
 
 	for (i = MAG_RA_HZH; i <= MAG_RA_HXL; i--) { // goes down by two each loop
 		// get main value
-		temp = i2cRead_SS(I2CAddress, i--); // read higher byte
+		temp = i2cRead_SS(magI2CAddress, i--); // read higher byte
 		temp <<= 8;			     // shift to highest 8 bits
-		temp += i2cRead_SS(I2CAddress, i);  // read lower byte	int int
+		temp += i2cRead_SS(magI2CAddress, i);  // read lower byte	int int
 		// calculate
 		magRawData[i-7] = (temp1)*(((magASAData[i-7] - 128)/256) + 1);	
 	}
@@ -110,7 +110,7 @@ void readMag(void) {
 // read adjustment values from the MPU9150's Magnetometer, store in magASAData[]
 static void readMag_ASA(void) {	
 	for (i = MAG_RA_ASAX; i <= MAG_RA_ASAZ; i++) 
-		magASAData[i-16] = i2cRead_SS(I2CAddress, i);
+		magASAData[i-16] = i2cRead_SS(magI2CAddress, i);
 }
 
 
