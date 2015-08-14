@@ -10,7 +10,7 @@ Current Problems:
  * Some BCM2835 functions cause CPU hangs, must find and test alternative method. see init_PinDir().
 
 Non-Standard (for C) Software Dependencies: 
- * C library for Broadcom BCM 2835 as used in Raspberry Pi [V1.42] {http://www.airspayce.com/mikem/bcm2835/}
+ * C library for Broadcom BCM 2835 as used in Raspberry Pi [V1.42] {http://www.airspayce.com/mikem/bcm2835/}, not included to avoid IP infringement
 
 Description: 
 This program drives a sensor board attached to the 40-pin GPIO in order to fly a quadcopter. Input is
