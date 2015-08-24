@@ -10,15 +10,15 @@
  */
 
 //-------------------------------------------------------Libraries-------------------------------------------------------//
-#include "piCopter.h"
+#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include "bcm2835.h"   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
-#include "../libs/mpu9150.h"
-#include "../libs/mpl3115a2.h"
-#include "../libs/ak8975.h"
-#include "../libs/easySerialComms.h"
+#include "../libs/mpu9150/mpu9150.h"
+#include "../libs/mpl3115a2/mpl3115a2.h"
+#include "../libs/ak8975/ak8975.h"
+#include "../libs/easySerialComms/easySerialComms.h"
 
 //--------------------------------------------------- Global Variables -------------------------------------------------//
 
