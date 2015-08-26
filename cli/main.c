@@ -82,25 +82,29 @@ int main (int argc, char *argv[]) {
 //-------------------------------------------------------Subroutines-----------------------------------------------------//
 // main initialisation routine, called from main()
 void init(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "Entering initialisation..."); 
-	#endif
-	bcm2835_init(); // inistialise gpio (mainly comms) 
+	printf("%s\n", "Entering initialisation..."); 
+
+	printf("%s\n", "	Initialising BCM2835"); 
+	bcm2835_init(); // inistialise gpio (mainly comms)
+
+	printf("%s\n", "	Initialising Comms");  
 	init_Comms(); // initialise commuications interfaces
+
+	printf("%s\n", "	Initialising GPIO pins"); 
 	init_PinDir(); // initialise GPIO pin directions and state-formats using bcm2835 function libraries
+
+	printf("%s\n", "	Initialising Sensors"); 
 	init_Sensors(); // initialise i2c altitude and imu sensors
+
+	printf("%s\n", "	Initialising Data Storage"); 
 	init_DataStorage();	// set data to zero
-	#ifdef DEBUG 
-		printf("%s\n%s", "Initialisation Complete.", "Entering Main Loop..."); 
-	#endif
+
+	printf("%s\n%s", "Initialisation Complete.", "Entering Main Loop..."); 
 }
 
 // initialise GPIO pin directions and state-formats using bcm2835 function libraries
 // SOME OF THESE BCM2835 FUNCTIONS CAUSE THE CPU TO HANG :((((((((((((((((((((((
 void init_PinDir(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "	-Initialising non-comms-GPIO pin direction and function... *Skipped in current version. See code"); 
-	#endif
 	// imu interrupt
 	//bcm2835_gpio_fsel(imuIntrptPin, BCM2835_GPIO_FSEL_INPT); // input
 	//bcm2835_gpio_set_pud(imuIntrptPin, BCM2835_GPIO_PUD_DOWN);  // pull-down

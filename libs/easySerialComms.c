@@ -45,9 +45,6 @@ void i2cWrite(byte slaveAddress, byte regAddress, byte val) {
 
 // comms initialisation
 void init_Comms(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "	-Initialising Communications Interfaces..."); 
-	#endif
 	init_I2C();       	// establish i2c comms with sensors
 	init_SPI();       	// establish SPI comms with PIC
 	init_Serial();    	// establish Serial comms with xbee
@@ -55,25 +52,19 @@ void init_Comms(void) {
 
 // I2C comms initialisation
 void init_I2C(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "		-Initialising I2C..."); 
-	#endif
+	printf("%s\n", "		-Initialising I2C..."); 
 	bcm2835_i2c_begin(); // enables i2c module
 	bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626); // speed set to 400kHz ("fast mode")
 }
 
 // Serial comms initialisation
 void init_Serial(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "		-Initialising USART..."); 
-	#endif
+	printf("%s\n", "		-Initialising USART..."); 
 }
 
 // SPI comms initialisation
 void init_SPI(void) {
-	#ifdef DEBUG 
-		printf("%s\n", "		-Initialising SPI..."); 
-	#endif
+	printf("%s\n", "		-Initialising SPI..."); 
 	//Setup SPI pins
 	bcm2835_spi_begin();
 	//Set CS pins polarity to low // CS NOT BEING IMPLEMENTED ON SLAVE DEVICE (PIC16F1828)

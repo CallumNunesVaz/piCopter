@@ -40,9 +40,7 @@ uint32_t get_Altitude_Raw() {
 // initialise i2c altitude sensor
 void init_ALTI(void) {
 	// currently configured to only use int1 interrupt pin, it is used for data-ready interrput 
-	#ifdef DEBUG 
-		printf("%s\n", "		-Initialising Altimeter..."); 
-	#endif
+	printf("%s\n", "		-Initialising Altimeter..."); 
 	
 	// <7> Altimeter-barometer mode, 0 is barometer	 	      <6> Raw output mode toggle, only ADC info shown, 1 for Raw
 	// <5:3> oversampling ratio (time between samples)	      
@@ -81,6 +79,8 @@ void init_ALTI(void) {
         // <1> Data event flag enable bit for pressure/altitude   <0> Data event flag enable bit for temperature
 	// Result = 0b00000011 = decimal 3
 	i2cWrite(altiI2CAddress, ALT_RA_PT_DATA_CFG, 3);
+
+	printf("%s"," done.");
 } 
 
 // read from the MPL3115A2 Altitude sensor

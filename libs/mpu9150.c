@@ -8,16 +8,24 @@
 
 static unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
 
+unsigned int accelRawDataCopy[3];
+unsigned int gyroRawDataCopy[3];
+
 static float imuProcessedData[7]; // accel x y z, temp, gyro x y z
+
+float accelProcessedDataCopy[3];
+float gyroProcessedDataCopy[3];
+
+float imuProcessedDataCopy[7];
 
 
 //----------------------------------------------- Global Program Modifiers ----------------------------------------------//
 
-ACCEL_RANGE = 8; // 2g's, 4g's 8g's or 16g's
+const uint8_t ACCEL_RANGE = 8; // 2g's, 4g's 8g's or 16g's
 
-GYRO_RANGE = 1000; // 250 degrees/s, 500 degrees/s, 1000 degrees/s, or 2000 degrees/s
+const uint16_t GYRO_RANGE = 1000; // 250 degrees/s, 500 degrees/s, 1000 degrees/s, or 2000 degrees/s
 
-DLPF_FREQ = 0; // choose value from 0 to 6 as value for imu low pass filter, 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz
+const uint8_t DLPF_FREQ = 0; // choose value from 0 to 6 as value for imu low pass filter, 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz
 
 //-------------------------------------------------------Subroutines-----------------------------------------------------//
 // functions in alphabetical order
@@ -67,33 +75,31 @@ unsigned int get_AccelY_Raw() {
 unsigned int get_AccelZ_Raw() {
 	return accelZRaw;
 }
-// retrieve raw sensor data from accelarometer
+// retrieve location of snapshot of raw sensor data from accelarometer XYZ
 unsigned int *get_AccelXYZ_Raw() {
 	byte i;
-	unsigned int[3] accelRawArray;
 	for (i = 0; i < 3; i++) {
-		accelRawArray[i] = imuRawData[i]; }
-	return accelRawArray;
+		accelRawDataCopy[i] = imuRawData[i]; }
+	return accelRawDataCopy;
 }
 // retrieve processed sensor data from accelarometer
-int get_AccelX() {
+float get_AccelX() {
 	return accelXProcessed;
 }
 // retrieve processed sensor data from accelarometer
-int get_AccelY() {
+float get_AccelY() {
 	return accelYProcessed;
 }
 // retrieve processed sensor data from accelarometer
-int get_AccelZ() {
+float get_AccelZ() {
 	return accelZProcessed;
 }
-// retrieve processed sensor data from accelarometer
-int *get_AccelXYZ() {
+// retrieve location of snapshot of processed sensor data from accelarometer XYZ
+float *get_AccelXYZ() {
 	byte i;
-	unsigned int[3] accelProcessedArray;
 	for (i = 0; i < 3; i++) {
-		accelProcessedArray[i] = imuProcessedData[i]; }
-	return accelProcessedArray;
+		accelProcessedDataCopy[i] = imuProcessedData[i]; }
+	return accelProcessedDataCopy;
 }
 // retrieve raw sensor data from gyroscope
 unsigned int get_GyroX_Raw() {
@@ -107,49 +113,46 @@ unsigned int get_GyroY_Raw() {
 unsigned int get_GyroZ_Raw() {
 	return gyroZRaw;
 }
-// retrieve raw sensor data from gyroscope
+// retrieve location of snapshot of raw sensor data from gyroscope XYZ
 unsigned int *get_GyroXYZ_Raw() {
 	byte i;
-	unsigned int[3] gyroRawArray;
 	for (i = 0; i < 3; i++) {
-		gyroRawArray[i] = imuRawData[i+4]; }
-	return gyroRawArray;
+		gyroRawDataCopy[i] = imuRawData[i+4]; }
+	return gyroRawDataCopy;
 }
-// retrieve processed sensor data from gyroscope
-int get_GyroX() {
+// retrieve processed sensor data from gyroscope X axis
+float get_GyroX() {
 	return gyroXProcessed;
 }
-// retrieve processed sensor data from gyroscope
-int get_GyroY() {
+// retrieve processed sensor data from gyroscope Y axis
+float get_GyroY() {
 	return gyroYProcessed;
 }
-// retrieve processed sensor data from gyroscope
-int get_GyroZ() {
+// retrieve processed sensor data from gyroscope Z axis
+float get_GyroZ() {
 	return gyroZProcessed;
 }
-// retrieve processed sensor data from gyroscope
-int *get_GyroXYZ() {
+// retrieve location of snapshot of processed sensor data from gyroscope XYZ
+float *get_GyroXYZ() {
 	byte i;
-	unsigned int[3] gyroProcessedArray;
 	for (i = 0; i < 3; i++) {
-		gyroProcessedArray[i] = imuProcessedData[i+4]; }
-	return gyroProcessedArray;
+		gyroProcessedDataCopy[i] = imuProcessedData[i+4]; }
+	return gyroProcessedDataCopy;
 }
 // retrieve raw sensor data from temperature sensor
-int get_Temp_Raw() {
+unsigned int get_Temp_Raw() {
 	return tempRaw;
 }
 // retrieve processed sensor data from temperature sensor
-int get_Temp() {
+float get_Temp() {
 	return tempProcessed;
 }
 
 // initialise i2c altitude and imu sensors
 void init_IMU(void) {
 	byte i; // variable for for-loops
-	#ifdef DEBUG 
-		printf("%s\n%s\n", "	-Initialising Sensors...","		-Initialising IMU..."); 
-	#endif
+
+	printf("%s\n","		-Initialising IMU..."); 
 
 	// sample rate = (gyro output rate)/(1 + SMPRT_DIV)
 	// gyro output rate =8KHz w/o DLPF and 1kHz with
@@ -167,7 +170,7 @@ void init_IMU(void) {
 		case 500: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 8); break;
 		case 1000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 16); break;
 		case 2000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 24); break;
-		case default: printf("%s\n", "ERROR: invalid gyroscope range selected"); exit(1); break;
+		default: printf("%s\n", "ERROR: invalid gyroscope range selected"); exit(1); break;
 	}
 
 	// set full scale range of accelorometer output (at bits <4:3>) 
@@ -177,7 +180,7 @@ void init_IMU(void) {
 		case 4: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 8); break;
 		case 8: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 16); break;
 		case 16: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 24); break;
-		case default: printf("%s\n", "ERROR: invalid accelerometer range selected"); exit(1); break;
+		default: printf("%s\n", "ERROR: invalid accelerometer range selected"); exit(1); break;
 	}
 	// <7> 	temp H & L to fifo enable bit      <6> GyroX H & L to fifo enable bit 
 	// <5>  GyroY H & L to fifo enable bit     <4> GyroZ H & L to fifo enable bit 
@@ -243,6 +246,8 @@ void init_IMU(void) {
 	for (i = 0x25; i <= 0x35; i++) i2cWrite(imuI2CAddress, i, 0);
 	// ...and from address 0x49 to 0x66.
 	for (i = 0x49; i <= 0x66; i++) i2cWrite(imuI2CAddress, i, 0);
+
+	printf("%s"," done.");
 }
 
 // read raw xyz data from the MPU9150's Accelorometer, temp & gyro (regs 3B - 48)

@@ -27,7 +27,7 @@
 
 #define handshake 0x55
 
-unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
+static unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
 #define accelXRaw imuRawData[0]
 #define accelYRaw imuRawData[1]
 #define accelZRaw imuRawData[2]
@@ -36,15 +36,21 @@ unsigned int imuRawData[7]; // accel x y z, temp, gyro x y z
 #define gyroYRaw  imuRawData[5]
 #define gyroZRaw  imuRawData[6]
 
+unsigned int accelRawDataCopy[3];
+unsigned int gyroRawDataCopy[3];
+
 // Accelarometer data in G's format
-float imuProcessedData[7]; // accel x y z, temp, gyro x y z
+static float imuProcessedData[7]; // accel x y z, temp, gyro x y z
 #define accelXProcessed imuProcessedData[0]
 #define accelYProcessed imuProcessedData[1]
 #define accelZProcessed imuProcessedData[2]
-#define tempProcessed   imuProcessedData[3]
+#define tempProcessed   imuProcessedData[3] 
 #define gyroXProcessed  imuProcessedData[4]
 #define gyroYProcessed  imuProcessedData[5]
 #define gyroZProcessed  imuProcessedData[6]
+
+float accelProcessedDataCopy[3];
+float gyroProcessedDataCopy[3];
 
 const uint8_t ACCEL_RANGE;
 
@@ -63,24 +69,24 @@ unsigned int get_AccelY_Raw();
 unsigned int get_AccelZ_Raw();
 unsigned int *get_AccelXYZ_Raw();
 // retrieve processed sensor data from accelarometer
-int get_AccelX();
-int get_AccelY();
-int get_AccelZ();
-int *get_AccelXYZ();
+float get_AccelX();
+float get_AccelY();
+float get_AccelZ();
+float *get_AccelXYZ();
 // retrieve raw sensor data from gyroscope
 unsigned int get_GyroX_Raw();
 unsigned int get_GyroY_Raw();
 unsigned int get_GyroZ_Raw();
 unsigned int *get_GyroXYZ_Raw();
 // retrieve processed sensor data from gyroscope
-int get_GyroX();
-int get_GyroY();
-int get_GyroZ();
-int *Get_gyroXYZ();
+float get_GyroX();
+float get_GyroY();
+float get_GyroZ();
+float *Get_gyroXYZ();
 // retrieve raw sensor data from temperature sensor
 unsigned int get_Temp_Raw();
 // retrieve processed sensor data from temperature sensor
-int get_Temp();
+float get_Temp();
 // initialisation routine
 void init_IMU(void);
 // read from the MPU9150

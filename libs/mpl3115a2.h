@@ -5,7 +5,7 @@
 
 #define IntrptPin1 RPI_BPLUS_GPIO_J8_15 // Altitude sensor interrupt pin gpio5
 #define IntrptPin2 RPI_BPLUS_GPIO_J8_29 // Altitude sensor interrupt pin gpio22
-#define I2CAddress 0x60 // 7-bit I2C slave address is 0x60 (1100000). 8-bit read is 0xC1, 8-bit write is 0xC0.
+#define altiI2CAddress 0x60 // 7-bit I2C slave address is 0x60 (1100000). 8-bit read is 0xC1, 8-bit write is 0xC0.
 
 /////////sensor register Addresses///////
 
@@ -47,11 +47,11 @@
 #define ALT_RA_P_MAX_LSB 	0x23
 #define ALT_RA_T_MAX_MSB 	0x24
 #define ALT_RA_T_MAX_LSB 	0x25
-#define ALT_RA_CTRL_1 		0x26
-#define ALT_RA_CTRL_2 		0x27
-#define ALT_RA_CTRL_3 		0x28
-#define ALT_RA_CTRL_4 		0x29
-#define ALT_RA_CTRL_5 		0x2A
+#define ALT_RA_CTRL_REG1	0x26
+#define ALT_RA_CTRL_REG2	0x27
+#define ALT_RA_CTRL_REG3	0x28
+#define ALT_RA_CTRL_REG4	0x29
+#define ALT_RA_CTRL_REG5	0x2A
 #define ALT_RA_OFF_P 		0x2B
 #define ALT_RA_OFF_T 		0x2C
 #define ALT_RA_OFF_H 		0x2D
