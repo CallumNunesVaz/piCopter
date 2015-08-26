@@ -31,7 +31,7 @@ const uint8_t DLPF_FREQ = 0; // choose value from 0 to 6 as value for imu low pa
 // functions in alphabetical order
 
 // Format data from raw sensor values into SI units
-void formatData() {
+void formatIMUData() {
 	byte i;
 	// -------------- Accelorometer --------------- //
 	for (i = 0; i < 3; i++) {
@@ -260,5 +260,5 @@ void readIMU(void) {
 		imuRawData[i++] += i2cRead_RS(imuI2CAddress, regAddress++); // access lower byte, store in lower byte
 	}
 	i2cRead_RS(imuI2CAddress, IMU_RA_INT_STATUS); // dummy read to clear int flag
-	formatData();
+	formatIMUData();
 }

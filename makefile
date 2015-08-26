@@ -5,5 +5,12 @@ SRC=$(wildcard libs/*.c) cli/main.c
 MAIN_EXEC=piCopter.run 
 
 default:
-	gcc $(SRC) -o $(MAIN_EXEC) 
+	sudo gcc $(SRC) -o $(MAIN_EXEC) $(LDLIBS)
+	@echo "Build Complete! :)"
 
+clean:
+	sudo rm piCopter.run
+	@echo "Clean Complete! :)"
+
+run:
+	sudo ./piCopter.run

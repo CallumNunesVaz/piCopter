@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "bcm2835.h"   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
-#include "../libs/mpu9150/mpu9150.h"
-#include "../libs/mpl3115a2/mpl3115a2.h"
-#include "../libs/ak8975/ak8975.h"
-#include "../libs/easySerialComms/easySerialComms.h"
+#include <bcm2835.h>   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
+#include "../libs/mpu9150.h"
+#include "../libs/mpl3115a2.h"
+#include "../libs/ak8975.h"
+#include "../libs/easySerialComms.h"
 
 //--------------------------------------------------- Global Variables -------------------------------------------------//
 
@@ -35,7 +35,7 @@ int main (int argc, char *argv[]) {
 	if (!bcm2835_init()) return 1;    // if BCM not initialised then exit program
 	while (1) {
 		// CONTROLLER INPUT
-		readController();       // get data from user's controller over xbee
+		//readController();       // get data from user's controller over xbee
 
 		// MPU9150
 		//if (bcm2835_gpio_eds(imuIntrptPin)) { 	// poll for past edge detection
@@ -59,16 +59,16 @@ int main (int argc, char *argv[]) {
 		}
 
 		// KALMAN Filter
-		runKalman(); 		// Smooth sensor input data (produce 'processed' sensor data) using quaternion based kalman filter
+		//runKalman(); 		// Smooth sensor input data (produce 'processed' sensor data) using quaternion based kalman filter
 
 		// PID Filter
-		runPID(); 		// ...smooth PWM ouputs with respect to time through PID control
+		//runPID(); 		// ...smooth PWM ouputs with respect to time through PID control
 		
 		// SEND PWM Values
-		writePWM();  		// finally send PWM values to PIC
+		//writePWM();  		// finally send PWM values to PIC
 
 		// Accel data to [G]'s, Gyro to [degrees/s], Temp to [Celcius], Mag to [uT], Alti to [meters]
-		formatData();
+		//formatData();
 
 		// DEBUGGING
 		if (loop_Counter%LOOP_CNT_DIV) 
@@ -95,9 +95,6 @@ void init(void) {
 
 	printf("%s\n", "	Initialising Sensors"); 
 	init_Sensors(); // initialise i2c altitude and imu sensors
-
-	printf("%s\n", "	Initialising Data Storage"); 
-	init_DataStorage();	// set data to zero
 
 	printf("%s\n%s", "Initialisation Complete.", "Entering Main Loop..."); 
 }

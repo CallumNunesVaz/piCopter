@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "bcm2835.h"   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
+#include <bcm2835.h>   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
 #include "easySerialComms.h"
 
 
