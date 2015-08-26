@@ -78,6 +78,11 @@ int *get_MagXYZ(void) {
 void readMag(void) {
 	byte i;
 	int temp;
+
+	/* Because the magnetometer puts itself to sleep after every read and only works in single-measurement mode 
+	on the 9150 aux bus (grrrrrr) you must write it to being single measurement mode to wake it from sleep and THEN read*/
+	i2cWrite(I2CAddress, MAG_RA_CNTL, 1);
+
 	if (!(i2cRead_SS(I2CAddress, MAG_RA_ST1))) // if no new data then return
 		return;
 	/*

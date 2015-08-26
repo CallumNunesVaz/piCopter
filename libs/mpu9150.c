@@ -154,6 +154,14 @@ void init_IMU(void) {
 
 	printf("%s\n","		-Initialising IMU..."); 
 
+	// <7> DEVICE RESET BIT						      <6> SLEEP ENABLE BIT
+	// <5> toggles whether device will cycle between wake and sleep       <4> UNIMPLEMENTED
+	// <3> Disables temp sensor (when set to 1)			           
+	// <2:0> Clock Select: 0=internal 8MHz, 1=PLL w/ gyro X ref, 2=PLL w/ gyro Y ref, 3=PLL w/ gyro Z ref,  4=PLL w/ external 32kHz
+	// 		       5= PLL w/ external 19.2MHz, 6 = RESV, 7 = stops clock
+	// Result = 0b0000001 = 0
+	i2cWrite(imuI2CAddress, IMU_RA_PWR_MGMT_1, 1);
+
 	// sample rate = (gyro output rate)/(1 + SMPRT_DIV)
 	// gyro output rate =8KHz w/o DLPF and 1kHz with
 	i2cWrite(imuI2CAddress, IMU_RA_SMPRT_DIV, 0); 
@@ -212,15 +220,7 @@ void init_IMU(void) {
 	// <3> UNIMPLEMENTED						      <2> reset FIFO buffer, bit resets itself after action
 	// <1> resets the I C Master when set to 1 while I2C_MST_EN equals 0  <0> resets the signal paths for all sensors
 	// Result = 0b00000001 = 1
-	i2cWrite(imuI2CAddress, IMU_RA_USER_CTRL, 1);
-
-	// <7> DEVICE RESET BIT						      <6> SLEEP ENABLE BIT
-	// <5> toggles whether device will cycle between wake and sleep       <4> UNIMPLEMENTED
-	// <3> Disables temp sensor (when set to 1)			           
-	// <2:0> Clock Select: 0=internal 8MHz, 1=PLL w/ gyro X ref, 2=PLL w/ gyro Y ref, 3=PLL w/ gyro Z ref,  4=PLL w/ external 32kHz
-	// 		       5= PLL w/ external 19.2MHz, 6 = RESV, 7 = stops clock
-	// Result = 0b0000001 = 0
-	i2cWrite(imuI2CAddress, IMU_RA_PWR_MGMT_1, 1);
+	i2cWrite(imuI2CAddress, IMU_RA_USER_CTRL, 0);
 
 	// <7:6> LP_WAKE_CTRL, 0=1.25Hz, 1=5Hz, 2=20Hz, 3=40Hz
 	// <5> Accel X Standby mode enable bit      <4> Accel Y Standby mode enable bit 
