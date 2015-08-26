@@ -25,7 +25,7 @@
 
 //----------------------------------------------- Global Program Modifiers ----------------------------------------------//
 
-const int LOOP_CNT_DIV = 256; // (DEBUGGING) set how many times the main loop will iterate before printing, reccomended 2^power value for consistent results
+const int LOOP_CNT_DIV = 64; // (DEBUGGING) set how many times the main loop will iterate before printing, reccomended 2^power value for consistent results
 
 //------------------------------------------------------Main Routine-----------------------------------------------------//
 
@@ -53,8 +53,8 @@ int main (int argc, char *argv[]) {
 
 		// DEBUGGING
 		loop_Counter++;
-		if (loop_Counter%LOOP_CNT_DIV) {
-			printf("\f");	// clear screen using form-feed for printRawData() and printProcessedData()
+		if (!(loop_Counter%LOOP_CNT_DIV)) {
+			system("clear");	// clear screen using form-feed for printRawData() and printProcessedData()
 			printRawData(); 	// print out all raw data from i2c sensors
 		}
 
@@ -71,7 +71,7 @@ int main (int argc, char *argv[]) {
 		//formatData();
 
 		// DEBUGGING
-		if (loop_Counter%LOOP_CNT_DIV) 
+		if (!(loop_Counter%LOOP_CNT_DIV)) 
 			printProcessedData(); // print out all processed data from i2c sensors
 	}
 	bcm2835_close();
@@ -139,20 +139,20 @@ void printProcessedData(void) {
 		Altitude:       ......[m]
 	//---------------------------------------------------------*/
 	printf("%s\n", "PROCESSED SENSOR DATA:");
-	printf("%s", "Accelorometer:  ");
-	printf("X: %06.4f [G],   ", get_AccelX());
-	printf("Y: %06.4f [G],   ", get_AccelY());
-	printf("Z: %06.4f [G]\n", get_AccelZ());
-	printf("%s", "Gyroscope:      ");
-	printf("X: %03.0f [%c/s], ", get_GyroX(), 176);
-	printf("Y: %03.0f [%c/s], ", get_GyroY(), 176);
-	printf("Z: %03.0f [%c/s]\n", get_GyroZ(), 176);
-	printf("%s", "Magnetomter:    ");
-	printf("Z: %04d [%cT],  ", get_MagX(), 181);
-	printf("Z: %04d [%cT],  ", get_MagY(), 181);
-	printf("Z: %04d [%cT]\n", get_MagZ(), 181);
-	printf("IMU/Mag Temp.:     %06.1f [%cC]\n", get_Temp(), 176);
-	printf("Altitude:    %06.1f [m]\n\n", get_Altitude());
+	printf("%s", "Accelorometer: [G]   ");
+	printf("X: %06.4f,", get_AccelX());
+	printf("Y: %06.4f,", get_AccelY());
+	printf("Z: %06.4f\n", get_AccelZ());
+	printf("%s", "Gyroscope: [deg/s]   ");
+	printf("X: %03.0f, ", get_GyroX());
+	printf("Y: %03.0f, ", get_GyroY());
+	printf("Z: %03.0f\n", get_GyroZ());
+	printf("%s", "Magnetomter: [uT]    ");
+	printf("X: %04d,  ", get_MagX());
+	printf("Y: %04d,  ", get_MagY());
+	printf("Z: %04d\n", get_MagZ());
+	printf("IMU/Mag Temp.:       %3.1f [Celcuis]\n", get_Temp());
+	printf("Altitude:    %06.1f [meters]\n\n", get_Altitude());
 }
 
 // print out raw sensor data in 6-decimal format, used for analysis/debugging
@@ -167,9 +167,9 @@ void printRawData(void) {
 	//---------------------------------------------------------*/
 	printf("%s\n", "RAW SENSOR DATA:");
 	printf("%s", "Accelorometer:  ");
-	printf("X: %05d , ", get_AccelX_Raw());
-	printf("Y: %05d , ", get_AccelY_Raw());
-	printf("Z: %05d \n", get_AccelZ_Raw());
+	printf("X: %05d, ", get_AccelX_Raw());
+	printf("Y: %05d, ", get_AccelY_Raw());
+	printf("Z: %05d\n", get_AccelZ_Raw());
 	printf("%s", "Gyroscope:      ");
 	printf("X: %05d, ", get_GyroX_Raw());
 	printf("Y: %05d, ", get_GyroY_Raw());
