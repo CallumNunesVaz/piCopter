@@ -3,11 +3,14 @@
 Author: Callum Nunes-Vaz
 
 Current Problems: 
- * makefile incorrect and must be made working to compile without external function declarations clogging up the main .c file.
- * Currently investigating SPI comms (pic won't seem to talk back, most probably problem with PIC).
- * Magnetomer gives NACKS, must have incorrectly configured aux mode on mpu9150
- * Entire program contained in single .c file for dev purposes, will be reformatted for 1.0 version
- * Some BCM2835 functions cause CPU hangs, must find and test alternative method. see init_PinDir().
+ * Magnetomer returns all zero values, appears to succeffully communicate and show up on i2c line through mpu9150
+ * Some BCM2835 pin functions cause CPU hangs, must find and test alternative method. see init_PinDir() for commented out code.
+
+Current Checklist:
+ * Finish code framework that reads with sensors
+ * Finish code that converts sensor values and prints them
+ * start and finish algorithms to achieve yaw pitch and roll
+ * All of above for unpurchased GPS module
 
 Non-Standard (for C) Software Dependencies: 
  * C library for Broadcom BCM 2835 as used in Raspberry Pi [V1.42] {http://www.airspayce.com/mikem/bcm2835/}, not included to avoid IP infringement
@@ -30,7 +33,7 @@ Board Communication scheme diagram:
      -------------------i2c----'      |      '-------SPI----|    PIC16F1828    |------USART------| VENUS638FLPx (GPS) |
      |         |                    USART                   --------------------                ----------------------
      |   -------------                |                      |     |      |     |
-     |	 | MPL3115A2 |                |  		   PWM    PWM    PWM    PWM			
+     |   | MPL3115A2 |                |                    PWM    PWM    PWM    PWM			
      |	 -------------	     	  --------	            |      |      |      |
  -----------			  | XBEE |	        |ESC1|  |ESC2|  |ESC3|  |ESC4|
  | MPU9150 |                      --------
@@ -38,6 +41,7 @@ Board Communication scheme diagram:
 ```
 
 IMPORTANT NOTES:
- * MUST BE RUN AS SUPER USER TO ACCESS GPIO e.g. "sudo ./piCopterprogram.run"
  * compile using makefile
+ * MUST BE RUN AS SUPER USER TO ACCESS GPIO e.g. "sudo ./piCopter.run" or "sudo make run"
+
 
