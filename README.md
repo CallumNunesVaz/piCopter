@@ -41,7 +41,7 @@ Board Communication scheme diagram:
 ```
 
 IMPORTANT NOTES:
- * compile using makefile
- * MUST BE RUN AS SUPER USER TO ACCESS GPIO e.g. "sudo ./piCopter.run" or "sudo make run"
+ * Compile using makefile
+ * Run using bash script e.g. "sudo ./run.sh"
 
 
