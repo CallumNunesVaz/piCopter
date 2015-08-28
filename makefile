@@ -17,4 +17,4 @@ clean:
 	@echo ">>>>>> Clean Complete! <<<<<<"
 
 run:
-	sudo ./piCopter.run
+	sudo ./run.sh

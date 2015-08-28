@@ -52,9 +52,9 @@ static float imuProcessedData[7]; // accel x y z, temp, gyro x y z
 float accelProcessedDataCopy[3];
 float gyroProcessedDataCopy[3];
 
-const uint8_t ACCEL_RANGE;
+static uint8_t ACCEL_RANGE;
 
-const uint16_t GYRO_RANGE;
+static uint16_t GYRO_RANGE;
 
 const uint8_t DLPF_FREQ;
 
@@ -91,11 +91,12 @@ float get_Temp();
 void init_IMU(void);
 // read from the MPU9150
 void readIMU(void);
-
-// void set_gyro_Range(int range);
-// void get_gyro_Range(int range);
-// void set_accel_Range(int range);
-// void get_accel_Range(int range);
+// set full scale range of accelorometer, 2g's, 4g's, 8g's, 16g's
+void set_IMU_AccelRange(byte range);
+// set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
+void set_IMU_DLPF(byte speed);
+// set full scale range of gyroscope output 250, 500, 1000, 2000 deg/s
+void set_IMU_GyroRange (unsigned int range);
 
 
 #endif

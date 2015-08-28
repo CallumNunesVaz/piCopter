@@ -18,14 +18,11 @@ float gyroProcessedDataCopy[3];
 
 float imuProcessedDataCopy[7];
 
+static uint8_t ACCEL_RANGE;
+static uint16_t GYRO_RANGE;
+static uint8_t DLPF_FREQ; 
 
 //----------------------------------------------- Global Program Modifiers ----------------------------------------------//
-
-const uint8_t ACCEL_RANGE = 8; // 2g's, 4g's 8g's or 16g's
-
-const uint16_t GYRO_RANGE = 1000; // 250 degrees/s, 500 degrees/s, 1000 degrees/s, or 2000 degrees/s
-
-const uint8_t DLPF_FREQ = 0; // choose value from 0 to 6 as value for imu low pass filter, 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz
 
 //-------------------------------------------------------Subroutines-----------------------------------------------------//
 // functions in alphabetical order
@@ -166,30 +163,19 @@ void init_IMU(void) {
 	// gyro output rate =8KHz w/o DLPF and 1kHz with
 	i2cWrite(imuI2CAddress, IMU_RA_SMPRT_DIV, 0); 
 
-	// set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
-	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
-	// FSYNC not used, DLPF value held in 3 lowest bits so can have value written directly
-	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, DLPF_FREQ); 
-
 	// set full scale range of gyroscope output (at bits <4:3>) 
 	// 0 = 250 degrees/s, 1 = 500 degrees/s, 2 = 1000 degrees/s, 3 = 2000 degrees/s
-	switch (GYRO_RANGE) {
-		case 250: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 0); break;
-		case 500: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 8); break;
-		case 1000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 16); break;
-		case 2000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 24); break;
-		default: printf("%s\n", "ERROR: invalid gyroscope range selected"); exit(1); break;
-	}
+	set_GyroRange(GYRO_RANGE);
 
 	// set full scale range of accelorometer output (at bits <4:3>) 
 	// 0 = 2g's, 1 = 4g's, 2 = 8g's, 3 =  16g's
-	switch (ACCEL_RANGE) {
-		case 2: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 0); break;
-		case 4: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 8); break;
-		case 8: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 16); break;
-		case 16: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 24); break;
-		default: printf("%s\n", "ERROR: invalid accelerometer range selected"); exit(1); break;
-	}
+	set_AccelRange(ACCEL_RANGE);
+
+	// set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
+	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
+	// FSYNC not used, DLPF value held in 3 lowest bits so can have value written directly
+	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, DLPF_FREQ);
+
 	// <7> 	temp H & L to fifo enable bit      <6> GyroX H & L to fifo enable bit 
 	// <5>  GyroY H & L to fifo enable bit     <4> GyroZ H & L to fifo enable bit 
 	// <3>  AccelXYZ H & L to fifo enable bit  <2> Slave 2 H & L to fifo enable bit 
@@ -261,4 +247,54 @@ void readIMU(void) {
 	}
 	i2cRead_RS(imuI2CAddress, IMU_RA_INT_STATUS); // dummy read to clear int flag
 	formatIMUData();
+}
+
+// set full scale range of accelorometer, 2g's, 4g's, 8g's, 16g's
+void set_IMU_AccelRange(byte range) {
+	ACCEL_RANGE = range;
+	// set full scale range of accelorometer output (at bits <4:3>) 
+	// 0 = 2g's, 1 = 4g's, 2 = 8g's, 3 =  16g's
+	switch (range) {
+		case 2: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 0); break;
+		case 4: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 8); break;
+		case 8: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 16); break;
+		case 16: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 24); break;
+		default: printf("%s\n", "ERROR: invalid accelerometer range selected"); while(1); break;
+	}
+}
+
+// set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
+void set_IMU_DLPF(byte speed) {
+	byte regContents;
+	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
+	switch (speed) {
+		case 256: speed = 0; break;
+		case 185: speed = 1; break;
+		case 95: speed = 2; break;
+		case 44: speed = 3; break;
+		case 22: speed = 4; break;
+		case 10: speed = 5; break;
+		case 5: speed = 6; break;
+		default: printf("%s\n", "ERROR: invalid DLPF value selected"); while(1); break;
+	}
+	DLPF_FREQ = speed;
+	// FSYNC not used, DLPF value held in 3 lowest bits so can have value written directly
+	// read current contents
+	regContents = (0b11111000) & (i2cRead_RS(imuI2CAddress, IMU_RA_IMU_CONFIG));
+	// change DLPF only
+	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, regContents+speed); break;
+}
+
+// set full scale range of gyroscope output 250, 500, 1000, 2000 deg/s
+void set_IMU_GyroRange (unsigned int range) {
+	GYRO_RANGE = range;
+	// set full scale range of gyroscope output (at bits <4:3>) 
+	// 0 = 250 degrees/s, 1 = 500 degrees/s, 2 = 1000 degrees/s, 3 = 2000 degrees/s
+	switch (range) {
+		case 250: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 0); break;
+		case 500: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 8); break;
+		case 1000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 16); break;
+		case 2000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 24); break;
+		default: printf("%s\n", "ERROR: invalid gyroscope range selected"); while(1); break;
+	}
 }

@@ -30,13 +30,26 @@ const int LOOP_CNT_DIV = 64; // (DEBUGGING) set how many times the main loop wil
 //------------------------------------------------------Main Routine-----------------------------------------------------//
 
 int main (int argc, char *argv[]) {
-	uint32_t loop_Counter; 
+	uint32_t loop_Counter;
+	byte i;
+	// check if enough arguments have been supplied for configuration
+	if (argc != 7) {
+		printf("%s\n", "Incorrect Number of Configuration Parameters! will now exit"); 
+		exit(1); 
+	}
+	// apply actions of arguments (acceloromter range, gyroscope range and imu digital low pass filter setting)
+	for (i=0; i<argc; i++) {
+		if ((argv[i])[0] == "-" && (argv[i++])[1] == "a") set_IMU_AccelRange(atoi(argv[i]));
+		printf("Accelerometer Range: %d G's\n", atoi(argv[i++]));
+		if ((argv[i])[0] == "-" && (argv[i++])[1] == "g") set_IMU_GyroRange(atoi(argv[i]));
+		printf("Gyroscope Range: %d deg/s\n", atoi(argv[i++]));
+		if ((argv[i])[0] == "-" && (argv[i++])[1] == "d") set_IMU_DLPF(atoi(argv[i]));
+		printf("IMU DLPF setting: approximately %d Hz\n", atoi(argv[i++]));
+	}
+
 	init(); 			  // run all initialisation code for Pi and external devices
 	if (!bcm2835_init()) return 1;    // if BCM not initialised then exit program
 	while (1) {
-		// CONTROLLER INPUT
-		//readController();       // get data from user's controller over xbee
-
 		// MPU9150
 		//if (bcm2835_gpio_eds(imuIntrptPin)) { 	// poll for past edge detection
 			readIMU();
@@ -57,20 +70,6 @@ int main (int argc, char *argv[]) {
 			system("clear");	// clear screen using form-feed for printRawData() and printProcessedData()
 			printRawData(); 	// print out all raw data from i2c sensors
 		}
-
-		// KALMAN Filter
-		//runKalman(); 		// Smooth sensor input data (produce 'processed' sensor data) using quaternion based kalman filter
-
-		// PID Filter
-		//runPID(); 		// ...smooth PWM ouputs with respect to time through PID control
-		
-		// SEND PWM Values
-		//writePWM();  		// finally send PWM values to PIC
-
-		// Accel data to [G]'s, Gyro to [degrees/s], Temp to [Celcius], Mag to [uT], Alti to [meters]
-		//formatData();
-
-		// DEBUGGING
 		if (!(loop_Counter%LOOP_CNT_DIV)) 
 			printProcessedData(); // print out all processed data from i2c sensors
 	}
