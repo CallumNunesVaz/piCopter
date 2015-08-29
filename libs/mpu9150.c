@@ -268,7 +268,7 @@ void set_IMU_DLPF(byte speed) {
 	byte regContents;
 	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
 	switch (speed) {
-		case 256: speed = 0; break;
+		case 255: speed = 0; break;
 		case 185: speed = 1; break;
 		case 95: speed = 2; break;
 		case 44: speed = 3; break;
@@ -282,7 +282,7 @@ void set_IMU_DLPF(byte speed) {
 	// read current contents
 	regContents = (0b11111000) & (i2cRead_RS(imuI2CAddress, IMU_RA_IMU_CONFIG));
 	// change DLPF only
-	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, regContents+speed); break;
+	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, regContents+speed);
 }
 
 // set full scale range of gyroscope output 250, 500, 1000, 2000 deg/s

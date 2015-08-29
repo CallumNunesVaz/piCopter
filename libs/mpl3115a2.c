@@ -29,12 +29,12 @@ void formatData() {
 
 // get processed value for altitude
 float get_Altitude() {
-	return altiRawData;
+	return altiProcessedData;
 }
 
 // get raw sensor value of altitude
 uint32_t get_Altitude_Raw() {
-	return altiProcessedData;
+	return altiRawData;
 }
 
 // initialise i2c altitude sensor

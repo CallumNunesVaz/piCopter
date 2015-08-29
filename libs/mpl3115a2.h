@@ -61,7 +61,8 @@
 
 
 ////////////Global Variables////////////
-
+static uint32_t altiRawData;
+static float altiProcessedData;
 
 ///////////////Prototypes///////////////
 // formats data from source device

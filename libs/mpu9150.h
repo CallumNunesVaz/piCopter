@@ -56,7 +56,7 @@ static uint8_t ACCEL_RANGE;
 
 static uint16_t GYRO_RANGE;
 
-const uint8_t DLPF_FREQ;
+static uint8_t DLPF_FREQ;
 
 
 ///////////////Prototypes///////////////
