@@ -161,7 +161,7 @@ void init_IMU(void) {
 
 	// sample rate = (gyro output rate)/(1 + SMPRT_DIV)
 	// gyro output rate =8KHz w/o DLPF and 1kHz with
-	i2cWrite(imuI2CAddress, IMU_RA_SMPRT_DIV, 0); 
+	i2cWrite(imuI2CAddress, IMU_RA_SMPRT_DIV, 1); // 500 Hz
 
 	// set full scale range of gyroscope output (at bits <4:3>) 
 	// 0 = 250 degrees/s, 1 = 500 degrees/s, 2 = 1000 degrees/s, 3 = 2000 degrees/s

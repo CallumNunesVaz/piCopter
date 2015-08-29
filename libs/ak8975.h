@@ -26,7 +26,7 @@ static unsigned int magRawData[3];
 #define magYRaw magRawData[1]
 #define magZRaw magRawData[2]
 
-static int magProcessedData[3];
+static float magProcessedData[3];
 #define magXProcessed magProcessedData[0]
 #define magYProcessed magProcessedData[1]
 #define magZProcessed magProcessedData[2]
@@ -49,13 +49,13 @@ unsigned int get_MagZ_Raw(void);
 // retrieve raw mag values as array
 unsigned int *get_MagXYZ_Raw(void);
 // retrieve processed mag value on X axis 
-int get_MagX(void);
+float get_MagX(void);
 // retrieve processed mag value on Y axis 
-int get_MagY(void);
+float get_MagY(void);
 // retrieve processed mag value on Z axis 
-int get_MagZ(void);
+float get_MagZ(void);
 // retrieve processed mag values as array
-int *get_MagXYZ(void);
+float *get_MagXYZ(void);
 // read from the MPU9150's Magnetometer, store in magRawData[]
 void readMag(void);
 // read magnetometer adjustment values for future calculations
