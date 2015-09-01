@@ -20,10 +20,9 @@ uint8_t i2cRead_RS(byte slaveAddress, byte regAddress) {
 
 // read a single value from one of the sensors registers (single-start format) used by ak8975
 uint8_t i2cRead_SS(byte slaveAddress, byte regAddress) {
-	char buffer[2] = {slaveAddress, regAddress};
+	char buffer[2] = {regAddress, 0};
 	byte condition;
 	bcm2835_i2c_setSlaveAddress(slaveAddress); // set Slave address
-	bcm2835_i2c_write(buffer, 2); // write slave address, then write register value
 	condition = bcm2835_i2c_read(buffer, 1); // listen for data
 	#ifdef DEBUG 
 		printI2CReasonCode(condition); // if debugging enabled, print out Reason code 
