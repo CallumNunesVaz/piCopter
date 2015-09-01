@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <bcm2835.h>   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
 #include "../libs/mpu9150.h"
 #include "../libs/mpl3115a2.h"
@@ -39,15 +40,17 @@ int main (int argc, char *argv[]) {
 		exit(1); 
 	}
 	// apply actions of arguments (acceloromter range, gyroscope range and imu digital low pass filter setting)
-	for (i=0; i<argc; i++) {
-		if ((argv[i])[0] == "-" && (argv[i++])[1] == "a") set_IMU_AccelRange(atoi(argv[i]));
-		printf("Accelerometer Range: %d G's\n", atoi(argv[i++]));
-		if ((argv[i])[0] == "-" && (argv[i++])[1] == "g") set_IMU_GyroRange(atoi(argv[i]));
-		printf("Gyroscope Range: %d deg/s\n", atoi(argv[i++]));
-		if ((argv[i])[0] == "-" && (argv[i++])[1] == "d") set_IMU_DLPF(atoi(argv[i]));
-		printf("IMU DLPF setting: approximately %d Hz\n", atoi(argv[i++]));
+	for (i=1; i<argc; i++) {
+		if (!strcmp("-a", argv[i])) {
+			printf("	Acceleration Range set to %s [G]'s\n", argv[++i]);
+			set_IMU_AccelRange(atoi(argv[i])); }
+		if (!strcmp("-g", argv[i])) {
+			printf("	Gyroscope Range set to %s [deg/s]\n", argv[++i]);
+			set_IMU_GyroRange(atoi(argv[i])); }
+		if (!strcmp("-d", argv[i])) {
+			printf("	IMU Digital Low Pass Filter (DLPF) set to approximately %s [HZ]\n", argv[++i]);
+			set_IMU_DLPF(atoi(argv[i])); }
 	}
-
 	init(); 			  // run all initialisation code for Pi and external devices
 	if (!bcm2835_init()) return 1;    // if BCM not initialised then exit program
 	while (1) {
