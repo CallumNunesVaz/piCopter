@@ -58,7 +58,7 @@ int main (int argc, char *argv[]) {
 	while (1) {
 		// MPU9150
 		//if (bcm2835_gpio_eds(imuIntrptPin)) { 	// poll for past edge detection
-			readIMU();
+			//readIMU();
 			readMag(); //NACK
 		//	bcm2835_gpio_set_eds(imuIntrptPin); // clear pins GPIO flag
 		//}
@@ -70,7 +70,7 @@ int main (int argc, char *argv[]) {
 			bcm2835_gpio_set_eds(imuIntrptPin); // clear pins GPIO flag
 		} */
 
-		// DEBUGGING
+		// Print-loop buffer
 		loop_Counter++;
 		if (!(loop_Counter%LOOP_CNT_DIV)) {
 			system("clear");	// clear screen using form-feed for printRawData() and printProcessedData()
@@ -131,7 +131,7 @@ void init_Sensors(byte a, uint16_t g, byte d) {
 	init_IMU(a, g, d);
 	init_MAG();
 	init_ALTI();
-} 
+}
 
 
 

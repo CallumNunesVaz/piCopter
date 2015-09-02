@@ -12,8 +12,8 @@ uint8_t i2cRead_RS(byte slaveAddress, byte regAddress) {
 	byte condition;
 	bcm2835_i2c_setSlaveAddress(slaveAddress); // set Slave address
 	condition = bcm2835_i2c_read_register_rs(reg, buffer, 1); //
-	#ifdef DEBUG 
-		printI2CReasonCode(condition); // if debugging enabled, print out Reason code 
+	#ifdef DEBUG
+		printI2CReasonCode(condition); // if debugging enabled, print out Reason code
 	#endif
 	return buffer[0];
 }
@@ -24,8 +24,8 @@ uint8_t i2cRead_SS(byte slaveAddress, byte regAddress) {
 	byte condition;
 	bcm2835_i2c_setSlaveAddress(slaveAddress); // set Slave address
 	condition = bcm2835_i2c_read(buffer, 1); // listen for data
-	#ifdef DEBUG 
-		printI2CReasonCode(condition); // if debugging enabled, print out Reason code 
+	#ifdef DEBUG
+		printI2CReasonCode(condition); // if debugging enabled, print out Reason code
 	#endif
 	return buffer[0];
 }
@@ -38,7 +38,7 @@ void i2cWrite(byte slaveAddress, byte regAddress, byte val) {
 	bcm2835_i2c_setSlaveAddress(slaveAddress);          // set Slave address
 	condition = bcm2835_i2c_write(buffer, num); 	    // Transfers any number of bytes to the currently selected I2C slave
 	#ifdef DEBUG 
-		printI2CReasonCode(condition); // if debugging enabled, print out Reason code  
+		printI2CReasonCode(condition); // if debugging enabled, print out Reason code
 	#endif
 }
 
