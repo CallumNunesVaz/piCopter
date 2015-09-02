@@ -10,12 +10,12 @@
  */
 
 //-------------------------------------------------------Libraries-------------------------------------------------------//
-#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include <bcm2835.h>   // bcm2835 library to use chip pins and comms interfaces, needs to be installed (see top of document)
+#include "main.h"
 #include "../libs/mpu9150.h"
 #include "../libs/mpl3115a2.h"
 #include "../libs/ak8975.h"
@@ -33,26 +33,28 @@ const int LOOP_CNT_DIV = 64; // (DEBUGGING) set how many times the main loop wil
 
 int main (int argc, char *argv[]) {
 	uint32_t loop_Counter;
-	byte i;
+	uint16_t g;
+	byte i, a, d;
+
+	// Check if the program has been run with superuser permissions
+	if (getuid()) {
+		printf("%s\n", "Please run program with superuser permissions!\nThe program will now exit"); exit(0);}
+
 	// check if enough arguments have been supplied for configuration
 	if (argc != 7) {
-		printf("%s\n", "Incorrect Number of Configuration Parameters! will now exit"); 
-		exit(1); 
-	}
+		printf("%s\n", "Incorrect Number of Configuration Parameters!\nThe program will now exit"); exit(0); }
+
 	// apply actions of arguments (acceloromter range, gyroscope range and imu digital low pass filter setting)
+	printf("%s %d %s\n", "Applying", (argc-1)/2, "Launch Parameters:");
 	for (i=1; i<argc; i++) {
-		if (!strcmp("-a", argv[i])) {
-			printf("	Acceleration Range set to %s [G]'s\n", argv[++i]);
-			set_IMU_AccelRange(atoi(argv[i])); }
-		if (!strcmp("-g", argv[i])) {
-			printf("	Gyroscope Range set to %s [deg/s]\n", argv[++i]);
-			set_IMU_GyroRange(atoi(argv[i])); }
-		if (!strcmp("-d", argv[i])) {
-			printf("	IMU Digital Low Pass Filter (DLPF) set to approximately %s [HZ]\n", argv[++i]);
-			set_IMU_DLPF(atoi(argv[i])); }
+		if (!strcmp("-a", argv[i])) a = (byte)atoi(argv[++i]);
+		if (!strcmp("-g", argv[i])) g = (uint16_t)atoi(argv[++i]);
+		if (!strcmp("-d", argv[i])) d = (byte)atoi(argv[++i]);
 	}
-	init(); 			  // run all initialisation code for Pi and external devices
-	if (!bcm2835_init()) return 1;    // if BCM not initialised then exit program
+
+	init(a,g,d);   // run all initialisation code for Program and external devices
+
+	// MAIN LOOP
 	while (1) {
 		// MPU9150
 		//if (bcm2835_gpio_eds(imuIntrptPin)) { 	// poll for past edge detection
@@ -61,7 +63,7 @@ int main (int argc, char *argv[]) {
 		//	bcm2835_gpio_set_eds(imuIntrptPin); // clear pins GPIO flag
 		//}
 
-		/*		
+		/*
 		// MPL3115A2
 		if (bcm2835_gpio_eds(altiIntrptPin1)) { // check for past edge detection
 			readAlti(); // Check altimeter interrupts, if high access and store raw altimeter data
@@ -84,11 +86,11 @@ int main (int argc, char *argv[]) {
 
 //-------------------------------------------------------Subroutines-----------------------------------------------------//
 // main initialisation routine, called from main()
-void init(void) {
-	printf("%s\n", "Entering initialisation..."); 
+void init(byte a, uint16_t g, byte d) {
+	printf("%s\n", "Entering Main initialisation..."); 
 
-	printf("%s\n", "	Initialising BCM2835"); 
-	bcm2835_init(); // inistialise gpio (mainly comms)
+	printf("%s\n", "Initialising BCM2835");
+	bcm2835_init(); // inistialise gpio 
 
 	printf("%s\n", "	Initialising Comms");  
 	init_Comms(); // initialise commuications interfaces
@@ -97,7 +99,7 @@ void init(void) {
 	init_PinDir(); // initialise GPIO pin directions and state-formats using bcm2835 function libraries
 
 	printf("%s\n", "	Initialising Sensors"); 
-	init_Sensors(); // initialise i2c altitude and imu sensors
+	init_Sensors(a, g, d); // initialise i2c altitude and imu sensors
 
 	printf("%s\n%s", "Initialisation Complete.", "Entering Main Loop..."); 
 }
@@ -125,8 +127,8 @@ void init_PinDir(void) {
 }
 
 // initialise i2c altitude and imu sensors
-void init_Sensors(void) {
-	init_IMU();
+void init_Sensors(byte a, uint16_t g, byte d) {
+	init_IMU(a, g, d);
 	init_MAG();
 	init_ALTI();
 } 

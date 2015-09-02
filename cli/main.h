@@ -29,11 +29,11 @@ enum bool {FALSE, TRUE};
 ///////////////Prototypes///////////////
 
 // initialisation routine, called from main()
-void init(void);
+void init(byte a, uint16_t g, byte d);
 // comms initialisation
 void init_PinDir(void);
 // initialise i2c altitude and imu sensors
-void init_Sensors(void);
+void init_Sensors(byte a, uint16_t g, byte d);
 // print out Processed sensor data in 6-decimal format, used for analysis/debugging
 void printProcessedData(void);
 // print out raw sensor data, used for analysis/debugging

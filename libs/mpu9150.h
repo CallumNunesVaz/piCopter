@@ -88,7 +88,7 @@ unsigned int get_Temp_Raw();
 // retrieve processed sensor data from temperature sensor
 float get_Temp();
 // initialisation routine
-void init_IMU(void);
+void init_IMU(byte a, uint16_t g, byte d);
 // read from the MPU9150
 void readIMU(void);
 // set full scale range of accelorometer, 2g's, 4g's, 8g's, 16g's

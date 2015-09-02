@@ -146,14 +146,14 @@ float get_Temp() {
 }
 
 // initialise i2c altitude and imu sensors
-void init_IMU(void) {
+void init_IMU(byte a, uint16_t g, byte d) {
 	byte i; // variable for for-loops
 
-	printf("%s\n","		-Initialising IMU..."); 
+	printf("%s\n","		-Initialising IMU...");
 
 	// <7> DEVICE RESET BIT						      <6> SLEEP ENABLE BIT
 	// <5> toggles whether device will cycle between wake and sleep       <4> UNIMPLEMENTED
-	// <3> Disables temp sensor (when set to 1)			           
+	// <3> Disables temp sensor (when set to 1)
 	// <2:0> Clock Select: 0=internal 8MHz, 1=PLL w/ gyro X ref, 2=PLL w/ gyro Y ref, 3=PLL w/ gyro Z ref,  4=PLL w/ external 32kHz
 	// 		       5= PLL w/ external 19.2MHz, 6 = RESV, 7 = stops clock
 	// Result = 0b0000001 = 0
@@ -163,35 +163,35 @@ void init_IMU(void) {
 	// gyro output rate =8KHz w/o DLPF and 1kHz with
 	i2cWrite(imuI2CAddress, IMU_RA_SMPRT_DIV, 1); // 500 Hz
 
-	// set full scale range of gyroscope output (at bits <4:3>) 
+	// set full scale range of gyroscope output (at bits <4:3>)
 	// 0 = 250 degrees/s, 1 = 500 degrees/s, 2 = 1000 degrees/s, 3 = 2000 degrees/s
-	set_IMU_GyroRange(GYRO_RANGE);
+	set_IMU_GyroRange(g);
 
-	// set full scale range of accelorometer output (at bits <4:3>) 
+	// set full scale range of accelorometer output (at bits <4:3>)
 	// 0 = 2g's, 1 = 4g's, 2 = 8g's, 3 =  16g's
-	set_IMU_AccelRange(ACCEL_RANGE);
+	set_IMU_AccelRange(a);
 
 	// set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
 	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
 	// FSYNC not used, DLPF value held in 3 lowest bits so can have value written directly
-	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, DLPF_FREQ);
+	set_IMU_DLPF(d);
 
-	// <7> 	temp H & L to fifo enable bit      <6> GyroX H & L to fifo enable bit 
-	// <5>  GyroY H & L to fifo enable bit     <4> GyroZ H & L to fifo enable bit 
-	// <3>  AccelXYZ H & L to fifo enable bit  <2> Slave 2 H & L to fifo enable bit 
-        // <1>  Slave 1 H & L to fifo enable bit   <0> Slave 0 H & L to fifo enable bit 
+	// <7> 	temp H & L to fifo enable bit      <6> GyroX H & L to fifo enable bit
+	// <5>  GyroY H & L to fifo enable bit     <4> GyroZ H & L to fifo enable bit
+	// <3>  AccelXYZ H & L to fifo enable bit  <2> Slave 2 H & L to fifo enable bit
+        // <1>  Slave 1 H & L to fifo enable bit   <0> Slave 0 H & L to fifo enable bit
 	// Result = 0b00000000 = decimal 0
 	i2cWrite(imuI2CAddress, IMU_RA_FIFO_EN, 0);
 
-	// <7> int active high (0) or low (1),  		 <6> int pin as push-pull (0) or open drain (1),  
-	// <5> int as 50us pulse (0) or held till cleared (1),   <4> flag cleared when INT_STATUS read (0) or any read (1),  
-	// <3> FSYNC active high (0) or active low (1),  	 <2> FSYNC_INT enable bit, (0) for disable, 
+	// <7> int active high (0) or low (1),  		 <6> int pin as push-pull (0) or open drain (1),
+	// <5> int as 50us pulse (0) or held till cleared (1),   <4> flag cleared when INT_STATUS read (0) or any read (1),
+	// <3> FSYNC active high (0) or active low (1),  	 <2> FSYNC_INT enable bit, (0) for disable,
         // <1> host can (1) or cant (0) access aux i2c bus       <0> UNIMPLEMENTED
 	// Result = 0b00100010 = decimal 34
 	i2cWrite(imuI2CAddress, IMU_RA_INT_PIN_CFG, 34);
 
 	// <4> FIFO overflow enable,  	 <3> I2c Master interrupt source enable
-        // <0> Data ready interrupt     
+        // <0> Data ready interrupt
 	// Result = 0b00000001 = decimal 1
 	i2cWrite(imuI2CAddress, IMU_RA_INT_ENABLE, 1);
 
@@ -209,13 +209,13 @@ void init_IMU(void) {
 	i2cWrite(imuI2CAddress, IMU_RA_USER_CTRL, 0);
 
 	// <7:6> LP_WAKE_CTRL, 0=1.25Hz, 1=5Hz, 2=20Hz, 3=40Hz
-	// <5> Accel X Standby mode enable bit      <4> Accel Y Standby mode enable bit 
-	// <3> Accel Z Standby mode enable bit 	    <2> Gyro X Standby mode enable bit 
+	// <5> Accel X Standby mode enable bit      <4> Accel Y Standby mode enable bit
+	// <3> Accel Z Standby mode enable bit 	    <2> Gyro X Standby mode enable bit
 	// <1> Gyro Y Standby mode enable bit       <0> Gyro Z Standby mode enable bit s
 	// Result = 0b11000000 = 196
 	i2cWrite(imuI2CAddress, IMU_RA_PWR_MGMT_2, 0);
 
-	// <7> Dealys shaddowing of external sensor data when set					      
+	// <7> Dealys shaddowing of external sensor data when set
 	// <4> slave 4 accessed at decreased rate
 	// <3> slave 3 accessed at decreased rate  <2> slave 2 accessed at decreased rate
 	// <1> slave 1 accessed at decreased rate  <0> slave 0 accessed at decreased rate
@@ -237,7 +237,7 @@ void init_IMU(void) {
 }
 
 // read raw xyz data from the MPU9150's Accelorometer, temp & gyro (regs 3B - 48)
-void readIMU(void) { 
+void readIMU(void) {
 	byte regAddress = 0x3B; // starting address
 	byte i = 0;
 	while (regAddress <= 0x48) {
@@ -252,7 +252,7 @@ void readIMU(void) {
 // set full scale range of accelorometer, 2g's, 4g's, 8g's, 16g's
 void set_IMU_AccelRange(byte range) {
 	ACCEL_RANGE = range;
-	printf("	Setting IMU Accelerometer range to %d...\n", range);
+	printf("	Setting IMU Accelerometer range to %d... ", range);
 	// set full scale range of accelorometer output (at bits <4:3>) 
 	// 0 = 2g's, 1 = 4g's, 2 = 8g's, 3 =  16g's
 	switch (range) {
@@ -262,12 +262,13 @@ void set_IMU_AccelRange(byte range) {
 		case 16: i2cWrite(imuI2CAddress, IMU_RA_ACCEL_CONFIG, 24); break;
 		default: printf("%s\n", "ERROR: invalid accelerometer range selected"); while(1); break;
 	}
+	printf("%s\n", "done");
 }
 
 // set value of digital low-pass filter (DLPF) for Accel and Gyro (samples out vibrations)
 void set_IMU_DLPF(byte speed) {
 	byte regContents;
-	printf("	Setting IMU DLPF range to %d...\n", speed);
+	printf("	Setting IMU DLPF range to %d... ", speed);
 	// 0=~256Hz, 1=~185Hz, 2=~95Hz, 3=~44Hz, 4=~22Hz, 5=~10Hz, 6=~5Hz, 7=RESERVED
 	switch (speed) {
 		case 255: speed = 0; break;
@@ -285,6 +286,7 @@ void set_IMU_DLPF(byte speed) {
 	regContents = (0b11111000) & (i2cRead_RS(imuI2CAddress, IMU_RA_IMU_CONFIG));
 	// change DLPF only
 	i2cWrite(imuI2CAddress, IMU_RA_IMU_CONFIG, regContents+speed);
+	printf("%s\n", "done");
 }
 
 // set full scale range of gyroscope output 250, 500, 1000, 2000 deg/s
@@ -292,7 +294,7 @@ void set_IMU_GyroRange (unsigned int range) {
 	GYRO_RANGE = range;
 	// set full scale range of gyroscope output (at bits <4:3>) 
 	// 0 = 250 degrees/s, 1 = 500 degrees/s, 2 = 1000 degrees/s, 3 = 2000 degrees/s
-	printf("	Setting IMU Gyroscope range to %d...\n", range);
+	printf("	Setting IMU Gyroscope range to %d... ", range);
 	switch (range) {
 		case 250: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 0); break;
 		case 500: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 8); break;
@@ -300,4 +302,5 @@ void set_IMU_GyroRange (unsigned int range) {
 		case 2000: i2cWrite(imuI2CAddress, IMU_RA_GYRO_CONFIG, 24); break;
 		default: printf("%s\n", "ERROR: invalid gyroscope range selected"); while(1); break;
 	}
+	printf("%s\n", "done");
 }
