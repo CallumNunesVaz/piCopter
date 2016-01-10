@@ -58,8 +58,8 @@ int main (int argc, char *argv[]) {
 	while (1) {
 		// MPU9150
 		//if (bcm2835_gpio_eds(imuIntrptPin)) { 	// poll for past edge detection
-			//readIMU();
-			readMag(); //NACK
+			readIMU();
+			readMag();
 		//	bcm2835_gpio_set_eds(imuIntrptPin); // clear pins GPIO flag
 		//}
 

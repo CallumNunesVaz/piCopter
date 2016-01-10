@@ -28,9 +28,9 @@ void printProcessedData(void) {
 	printf("Y: %03.0f, ", get_GyroY());
 	printf("Z: %03.0f\n", get_GyroZ());
 	printf("%s", "Magnetomter: [uT]    ");
-	printf("X: %04f,  ", get_MagX());
-	printf("Y: %04f,  ", get_MagY());
-	printf("Z: %04f\n", get_MagZ());
+	printf("X: %04.0f,  ", get_MagX());
+	printf("Y: %04.0f,  ", get_MagY());
+	printf("Z: %04.0f\n", get_MagZ());
 	printf("IMU/Mag Temp.:       %3.1f [Celcuis]\n", get_Temp());
 	printf("Altitude:    %6.1f [meters]\n\n", get_Altitude());
 }

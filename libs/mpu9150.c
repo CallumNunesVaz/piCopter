@@ -187,7 +187,7 @@ void init_IMU(byte a, uint16_t g, byte d) {
 	// <5> int as 50us pulse (0) or held till cleared (1),   <4> flag cleared when INT_STATUS read (0) or any read (1),
 	// <3> FSYNC active high (0) or active low (1),  	 <2> FSYNC_INT enable bit, (0) for disable,
         // <1> host can (1) or cant (0) access aux i2c bus       <0> UNIMPLEMENTED
-	// Result = 0b00100010 = decimal 34
+	// Result = 0b00100000 = decimal 34
 	i2cWrite(imuI2CAddress, IMU_RA_INT_PIN_CFG, 34);
 
 	// <4> FIFO overflow enable,  	 <3> I2c Master interrupt source enable

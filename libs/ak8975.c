@@ -108,12 +108,15 @@ void readMag(void) {
 	#ifdef DEBUG 
 		printI2CReasonCode(i); // if debugging enabled, print out Reason code
 	#endif
-	// now read 3 integer values for X, Y, and Z from reg 0x03 to 0x07
+	// now read 3 integer values for X, Y, and Z from reg 0x03 to 0x08
 	i = bcm2835_i2c_read(data, 6);
 	#ifdef DEBUG 
 		printI2CReasonCode(i); // if debugging enabled, print out Reason code
 	#endif
-	// now map the data into the raw-data array magRawData[]
+	//for (i=0; i<6; i++){
+	//	printf("%s%d%s%d\n", "Data[", i, "]: ", data[i]);
+	//}
+	// now map the data into the raw-data array magRawData[], raw data is in little endian
 	for (i=0; i<3; i++) {
 		magRawData[i] = data[5-(i*2)];
 		magRawData[i] <<= 8;
