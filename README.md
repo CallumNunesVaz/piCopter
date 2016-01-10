@@ -3,7 +3,7 @@
 Author: Callum Nunes-Vaz
 
 Current Problems: 
- * Magnetomer returns all zero values, appears to succeffully communicate and show up on i2c line through mpu9150
+ * Magnetomerwill not update values, appears to succeffully communicate and show up on i2c line through mpu9150 but this is suspected to be untrue
  * Some BCM2835 pin functions cause CPU hangs, must find and test alternative method. see init_PinDir() for commented out code.
 
 Current Checklist:
