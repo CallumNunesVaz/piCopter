@@ -95,23 +95,35 @@ float *get_MagXYZ(void) {
 // read raw data from the MPU9150's Magnetometer, store in magRawData[]
 void readMag(void) {
 	byte i;
+	byte data[6];
 	unsigned int temp;
-
+	
 	/* Because the magnetometer puts itself to sleep after every read and only works in single-measurement mode 
-	on the 9150 aux bus (grrrrrr) you must write it to being single measurement mode to wake it from sleep and THEN read*/
-	i2cWrite(magI2CAddress, MAG_RA_CNTL, 1);
-
+	on the 9150 aux bus (grrrrrr) you must write it to being single measurement mode to wake it from sleep and THEN read */
+	//i2cWrite(magI2CAddress, MAG_RA_CNTL, 1);
+	
+	// first, write slave address then set counter to address 0x03
+	char buffer[] = {I2CAddress, 0x03};
+	i = bcm2835_i2c_write(buffer, 2);
+	#ifdef DEBUG 
+		printI2CReasonCode(i); // if debugging enabled, print out Reason code
+	#endif
+	// now read 3 integer values for X, Y, and Z from reg 0x03 to 0x07
+	i = bcm2835_i2c_read(data, 6);
+	#ifdef DEBUG 
+		printI2CReasonCode(i); // if debugging enabled, print out Reason code
+	#endif
+	// now map the data into the raw-data array magRawData[]
+	for (i=0; i<3; i++) {
+		magRawData[i] = data[5-(i*2)];
+		magRawData[i] <<= 8;
+		magRawData[i] += data[4-(i*2)];
+	}
+	
 	//if (!(i2cRead_RS(I2CAddress, MAG_RA_ST1))) // if no new data then return
 	//	return;
-	// goes down read regs byte by byte HZH=0x07, HZL=0x06 ... HXL=0x03
-	for (i = MAG_RA_HZH; i <= MAG_RA_HXL; i--) { // goes down by two each loop
-		// get main value
-		temp = i2cRead_RS(magI2CAddress, i--);  // read higher byte
-		temp <<= 8;			     // shift to highest 8 bits
-		temp += i2cRead_RS(magI2CAddress, i);   // read lower byte	int int
-		magRawData[(i+1)/2 - 2] = temp;      // assign to address 2, 1, 0 (e.g. first result is ({7}+1)/2-2=2 )
-	}
-	// format to [uT] store in magProcessedData
+	
+	// format magRawData to [uT], store in magProcessedData */
 	formatMAGData();
 }
 
