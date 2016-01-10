@@ -103,7 +103,7 @@ void readMag(void) {
 	//i2cWrite(magI2CAddress, MAG_RA_CNTL, 1);
 	
 	// first, write slave address then set counter to address 0x03
-	char buffer[] = {I2CAddress, 0x03};
+	char buffer[] = {magI2CAddress, 0x03};
 	i = bcm2835_i2c_write(buffer, 2);
 	#ifdef DEBUG 
 		printI2CReasonCode(i); // if debugging enabled, print out Reason code
