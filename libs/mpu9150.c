@@ -33,7 +33,7 @@ void formatIMUData() {
 	// -------------- Accelorometer --------------- //
 	for (i = 0; i < 3; i++) {
 		if (imuRawData[i] >= 32767) { // if negative (because is unsigned int)
-			imuProcessedData[i] = 65536 - imuRawData[i];  // invert
+			imuProcessedData[i] = (float)(imuRawData[i]^1);  // invert
 			imuProcessedData[i] *= -1;  // make float negative
 		} else  // if positive
 			imuProcessedData[i] = imuRawData[i];
@@ -43,7 +43,7 @@ void formatIMUData() {
 	// ----------------- Gyroscope ---------------- //
 	for (i = 4; i < 7; i++) {
 		if (imuRawData[i] >= 32767) { // if negative (because 2c unsigned int)
-			imuProcessedData[i] = 65536 - imuRawData[i]; // invert
+			imuProcessedData[i] = (float)(imuRawData[i]^1);  // invert
 			imuProcessedData[i] *= -1; // make float negative
 		} else // if positive
 			imuProcessedData[i] = imuRawData[i];
@@ -53,7 +53,7 @@ void formatIMUData() {
 
 	// ----- IMU & MAG Die Temperature Sensor ----- //
 	if (imuRawData[3] >= 32767) { // if negative (because is unsigned int and 2c)
-		imuProcessedData[3] = 65536 - imuRawData[3]; // invert
+		imuProcessedData[3] = (float)(imuRawData[3]^1);  // invert
 		imuProcessedData[3] *= -1;  // make float negative
 	} else  // if positive
 		imuProcessedData[3] = imuRawData[3];
